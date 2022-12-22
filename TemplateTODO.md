@@ -7,6 +7,8 @@
 - [ ] Apps
   - [ ] Separated log-in screen
   - [ ] Improved, more cross-platform LocalStorage solution
+  - [ ] Maps
+  - [ ] In-App Purchase?
   - [ ] Android
     - [ ] Notifications
   - [ ] iOS
