@@ -1,0 +1,21 @@
+# Full Project Deployment
+
+- [ ] Get Terraform Ready - TODO
+- [ ] Get MongoDB Atlas access and get an API key. - TODO
+- [ ] Get a Stripe account. - TODO
+- [ ] Get a Firebase project for notifications.
+  - [ ] Android Setup
+    - [ ] Generate a new keystore for Android.
+    - [ ] IntelliJ or Android Studio: Build -> Generate Signed -> JKS Entry
+    - [ ] Populate entered information into `local.properties`
+        - [ ] TODO: Keys here
+    - [ ] Run the Gradle task `signingReport` in the Android project.
+    - [ ] Use the SHA1 hash in creating a new Android app in Firebase.
+    - [ ] Download the generated `google-services.json` and replace the one in the Android project.
+  - [ ] Server Setup
+    - [ ] In Project Settings -> Service accounts, download a private key for the server to use.
+    - [ ] Add the credentials to your deployment in `server/terraform/your-deployment/local.tf`.
+  - [ ] iOS Setup - TODO
+  - [ ] Web Setup - TODO
+- [ ] Get a Google Play Account. - TODO
+- [ ] Get an Apple App Store Account. - TODO

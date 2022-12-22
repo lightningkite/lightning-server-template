@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "487565123601",
+    "project_id": "lightning-kite-template",
+    "storage_bucket": "lightning-kite-template.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487565123601:android:0dd3419c117ba8925b91b0",
+        "android_client_info": {
+          "package_name": "com.lightningkite.template"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487565123601-g6mf0ato9ooh8srn9669qujt27fd2nd5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lightningkite.template",
+            "certificate_hash": "a6573fe392a8916215d1ebed8a926ded282d1760"
+          }
+        },
+        {
+          "client_id": "487565123601-gm6qf8tnm8s9hp32hgverpvjitpvrhmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrT20acYoiyKuyKOSijNDLgdeUAVwBHw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487565123601-gm6qf8tnm8s9hp32hgverpvjitpvrhmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

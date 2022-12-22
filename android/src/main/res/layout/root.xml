@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:safeInsets="center"
+        >
+
+    <com.lightningkite.rx.viewgenerators.SwapView
+            android:id="@+id/content"
+            tools:stackId="root"
+            tools:stackDefault="@layout/login"
+            tools:provides="onResult: (server: ServerOption, token: String)->Single[Unit]"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            />
+
+    <com.lightningkite.rx.viewgenerators.SwapView
+            android:id="@+id/dialog"
+            tools:stackId="dialog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/background"
+            />
+
+</FrameLayout>

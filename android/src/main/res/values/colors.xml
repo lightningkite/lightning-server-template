@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fcb912</color>
+    <color name="colorPrimaryDark">#7E5D0A</color>
+    <color name="colorAccent">#fcb912</color>
+    <color name="colorAccentDark">#7E5D0A</color>
+    <color name="transparentBack">#8888</color>
+    <color name="transparent">#0000</color>
+    <color name="disabled">#888</color>
+    <color name="background">#272727</color>
+    <color name="foreground">#FFFFFF</color>
+    <color name="foregroundFade">#8FFF</color>
+    <color name="barForeground">#FFF</color>
+    <color name="toggleOn">#58443B</color>
+    <color name="toggleOff">#925857</color>
+    <color name="black">#000</color>
+    <color name="lightBlue">#406F9F</color>
+    <color name="highlight">#00F</color>
+</resources>
