@@ -27,10 +27,12 @@ import kotlin.Double
 import com.lightningkite.lightningdb.GroupAggregateQuery
 import com.lightningkite.lightningdb.ListChange
 import com.lightningkite.lightningserver.serverhealth.ServerHealth
+import com.lightningkite.template.FcmToken
 
 open class AbstractAnonymousSession(val api: Api) {
     val auth: AbstractAnonymousSessionAuthApi = AbstractAnonymousSessionAuthApi(api.auth)
     val user: AbstractAnonymousSessionUserApi = AbstractAnonymousSessionUserApi(api.user)
+    val fcmToken: AbstractAnonymousSessionFcmTokenApi = AbstractAnonymousSessionFcmTokenApi(api.fcmToken)
     fun uploadFileForRequest(): Single<UploadInformation> = api.uploadFileForRequest()
     open class AbstractAnonymousSessionAuthApi(val api: Api.AuthApi) {
         fun anonymousToken(): Single<String> = api.anonymousToken(null)
@@ -57,6 +59,8 @@ open class AbstractAnonymousSession(val api: Api) {
         fun groupAggregate(input: GroupAggregateQuery<User>): Single<Map<String, Double?>> = api.groupAggregate(input, null)
         fun watch(): Observable<WebSocketIsh<ListChange<User>, Query<User>>> = api.watch(null)
     }
+    open class AbstractAnonymousSessionFcmTokenApi(val api: Api.FcmTokenApi) {
+    }
 }
 
 abstract class AbstractUserSession(api: Api, userToken: String) {
@@ -64,6 +68,7 @@ abstract class AbstractUserSession(api: Api, userToken: String) {
     abstract val userToken: String
     val auth: UserSessionAuthApi = UserSessionAuthApi(api.auth, userToken)
     val user: UserSessionUserApi = UserSessionUserApi(api.user, userToken)
+    val fcmToken: UserSessionFcmTokenApi = UserSessionFcmTokenApi(api.fcmToken, userToken)
     fun uploadFileForRequest(): Single<UploadInformation> = api.uploadFileForRequest()
     fun getServerHealth(): Single<ServerHealth> = api.getServerHealth(userToken)
     class UserSessionAuthApi(val api: Api.AuthApi, val userToken: String) {
@@ -92,6 +97,26 @@ abstract class AbstractUserSession(api: Api, userToken: String) {
         fun aggregate(input: AggregateQuery<User>): Single<Optional<Double>> = api.aggregate(input, userToken)
         fun groupAggregate(input: GroupAggregateQuery<User>): Single<Map<String, Double?>> = api.groupAggregate(input, userToken)
         fun watch(): Observable<WebSocketIsh<ListChange<User>, Query<User>>> = api.watch(userToken)
+    }
+    class UserSessionFcmTokenApi(val api: Api.FcmTokenApi, val userToken: String) {
+        fun default(): Single<FcmToken> = api.default(userToken)
+        fun query(input: Query<FcmToken>): Single<List<FcmToken>> = api.query(input, userToken)
+        fun detail(id: String): Single<FcmToken> = api.detail(id, userToken)
+        fun insertBulk(input: List<FcmToken>): Single<List<FcmToken>> = api.insertBulk(input, userToken)
+        fun insert(input: FcmToken): Single<FcmToken> = api.insert(input, userToken)
+        fun upsert(id: String, input: FcmToken): Single<FcmToken> = api.upsert(id, input, userToken)
+        fun bulkReplace(input: List<FcmToken>): Single<List<FcmToken>> = api.bulkReplace(input, userToken)
+        fun replace(id: String, input: FcmToken): Single<FcmToken> = api.replace(id, input, userToken)
+        fun bulkModify(input: MassModification<FcmToken>): Single<Int> = api.bulkModify(input, userToken)
+        fun modifyWithDiff(id: String, input: Modification<FcmToken>): Single<EntryChange<FcmToken>> = api.modifyWithDiff(id, input, userToken)
+        fun modify(id: String, input: Modification<FcmToken>): Single<FcmToken> = api.modify(id, input, userToken)
+        fun bulkDelete(input: Condition<FcmToken>): Single<Int> = api.bulkDelete(input, userToken)
+        fun delete(id: String): Single<Unit> = api.delete(id, userToken)
+        fun count(input: Condition<FcmToken>): Single<Int> = api.count(input, userToken)
+        fun groupCount(input: GroupCountQuery<FcmToken>): Single<Map<String, Int>> = api.groupCount(input, userToken)
+        fun aggregate(input: AggregateQuery<FcmToken>): Single<Optional<Double>> = api.aggregate(input, userToken)
+        fun groupAggregate(input: GroupAggregateQuery<FcmToken>): Single<Map<String, Double?>> = api.groupAggregate(input, userToken)
+        fun watch(): Observable<WebSocketIsh<ListChange<FcmToken>, Query<FcmToken>>> = api.watch(userToken)
     }
 }
 

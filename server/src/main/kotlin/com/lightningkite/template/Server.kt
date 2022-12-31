@@ -23,6 +23,7 @@ import com.lightningkite.lightningserver.settings.generalSettings
 import com.lightningkite.lightningserver.settings.setting
 import com.lightningkite.lightningserver.tasks.Tasks
 import com.lightningkite.lightningserver.tasks.doOnce
+import com.lightningkite.lightningserver.tasks.startupOnce
 import com.lightningkite.template.stripe.StripeCredentials
 import com.lightningkite.template.stripe.StripeEndpoints
 import kotlinx.coroutines.flow.singleOrNull
@@ -165,16 +166,18 @@ object Server : ServerPathGroup(ServerPath.root) {
     val auth = AuthEndpoints(path("auth"))
     val meta = path("meta").metaEndpoints<User> { it.isSuperUser }
     val users = UserEndpoints(path("users"))
+    val fcmTokens = FcmTokenEndpoints(path("fcm-tokens"))
     val payment = StripeEndpoints(path("payment"))
 
-    val situate = path("situate").get.handler {
-        val admin = User(
-            _id = UUID.fromString("aefe4e8b-4146-437f-a827-03f5954d74f7"),
-            email = "joseph@lightningkite.com",
-            isSuperUser = true
-        )
-        if (users.collection().get(admin._id) == null)
-            users.collection().upsertOneById(admin._id, admin)
-        HttpResponse.plainText("OK")
+    init {
+        startupOnce("setUpAdmins", database) {
+            val admin = User(
+                _id = UUID.fromString("aefe4e8b-4146-437f-a827-03f5954d74f7"),
+                email = "joseph@lightningkite.com",
+                isSuperUser = true
+            )
+            if (users.collection().get(admin._id) == null)
+                users.collection().upsertOneById(admin._id, admin)
+        }
     }
 }

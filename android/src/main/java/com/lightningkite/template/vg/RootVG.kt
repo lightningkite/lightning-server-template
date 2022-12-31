@@ -19,8 +19,9 @@ import com.lightningkite.rx.android.onClick
 import com.lightningkite.rx.android.resources.ViewStringResource
 import com.lightningkite.rx.android.visible
 import com.lightningkite.rx.viewgenerators.*
+import com.lightningkite.rx.viewgenerators.fcm.ForegroundNotificationHandler
+import com.lightningkite.rx.viewgenerators.fcm.ForegroundNotificationHandlerResult
 import com.lightningkite.template.R
-import com.lightningkite.template.actual.SecurePreferences
 import com.lightningkite.template.api.ServerOption
 import com.lightningkite.template.api.ServerOptions
 import com.lightningkite.template.databinding.RootBinding
@@ -29,6 +30,7 @@ import com.lightningkite.template.models.Session
 import com.lightningkite.template.models.UserSession
 import com.lightningkite.template.termsAgreed
 import com.lightningkite.template.utils.PreferenceKeys
+import com.lightningkite.template.utils.SecurePreferences
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import java.time.Instant
@@ -38,7 +40,11 @@ import java.time.Instant
 class RootVG(
     //--- Dependencies (overwritten on flow generation)
     //--- Extends
-) : ViewGenerator, EntryPoint {
+) : ViewGenerator, EntryPoint, ForegroundNotificationHandler {
+    override fun handleNotificationInForeground(map: Map<String, String>): ForegroundNotificationHandlerResult {
+        return ForegroundNotificationHandlerResult.ShowNotification
+    }
+
     companion object {
         lateinit var instance: RootVG
     }
@@ -85,8 +91,8 @@ class RootVG(
         } else {
             val session = UserSession(server.api, token)
             session.api.auth.getSelf(session.userToken).doOnSuccess { user ->
-                SecurePreferences.set(PreferenceKeys.serverKey, server.name)
-                SecurePreferences.set(PreferenceKeys.sessionKey, token)
+                PreferenceKeys.server = server.name
+                PreferenceKeys.session = token
                 if(user.termsAgreed > Instant.EPOCH) {
                     dialog.value = listOf()
                     root.reset(
@@ -151,23 +157,23 @@ class RootVG(
     init {
 
         //--- Set Initial View for root
-        val serverName = SecurePreferences.get<String>(PreferenceKeys.serverKey)
+        val serverName = PreferenceKeys.server
         val option = serverName?.let { ServerOptions.getOptionByName(it) }
-        val jwt = SecurePreferences.get<String>(PreferenceKeys.sessionKey)
+        val jwt = PreferenceKeys.session
         if (option != null && jwt != null) {
             login(option, jwt)
                 .doOnSubscribe { dialog.reset(LoadingDialogVG()) }
                 .doOnTerminate { dialog.value = listOf() }
                 .subscribeBy(
                     onError = {
-                        SecurePreferences.clear()
+                        it.printStackTrace()
+                        showDialog(ViewStringResource(R.string.generic_error))
                         loginAction()
                     },
                     onSuccess = {
                     },
                 )
         } else {
-            SecurePreferences.clear()
             loginAction()
         }
 //        this.root.reset(ViewGenerator.Default())
@@ -192,6 +198,10 @@ class RootVG(
     //--- Action loginAction
     fun loginAction() {
         this.root.reset(LandingVG(root, root))
+    }
+    fun logOut() {
+        SecurePreferences.edit().clear().apply()
+        loginAction()
     }
 
     //--- Body End

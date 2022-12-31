@@ -27,10 +27,12 @@ import com.lightningkite.lightningdb.AggregateQuery
 import kotlin.Double
 import com.lightningkite.lightningdb.GroupAggregateQuery
 import com.lightningkite.lightningdb.ListChange
+import com.lightningkite.template.FcmToken
 
 interface Api {
     val auth: AuthApi
     val user: UserApi
+    val fcmToken: FcmTokenApi
     fun uploadFileForRequest(): Single<UploadInformation>
     fun getServerHealth(userToken: String): Single<ServerHealth>
     interface AuthApi {
@@ -59,6 +61,26 @@ interface Api {
         fun aggregate(input: AggregateQuery<User>, userToken: String?): Single<Optional<Double>>
         fun groupAggregate(input: GroupAggregateQuery<User>, userToken: String?): Single<Map<String, Double?>>
         fun watch(userToken: String?): Observable<WebSocketIsh<ListChange<User>, Query<User>>>
+    }
+    interface FcmTokenApi {
+        fun default(userToken: String): Single<FcmToken>
+        fun query(input: Query<FcmToken>, userToken: String): Single<List<FcmToken>>
+        fun detail(id: String, userToken: String): Single<FcmToken>
+        fun insertBulk(input: List<FcmToken>, userToken: String): Single<List<FcmToken>>
+        fun insert(input: FcmToken, userToken: String): Single<FcmToken>
+        fun upsert(id: String, input: FcmToken, userToken: String): Single<FcmToken>
+        fun bulkReplace(input: List<FcmToken>, userToken: String): Single<List<FcmToken>>
+        fun replace(id: String, input: FcmToken, userToken: String): Single<FcmToken>
+        fun bulkModify(input: MassModification<FcmToken>, userToken: String): Single<Int>
+        fun modifyWithDiff(id: String, input: Modification<FcmToken>, userToken: String): Single<EntryChange<FcmToken>>
+        fun modify(id: String, input: Modification<FcmToken>, userToken: String): Single<FcmToken>
+        fun bulkDelete(input: Condition<FcmToken>, userToken: String): Single<Int>
+        fun delete(id: String, userToken: String): Single<Unit>
+        fun count(input: Condition<FcmToken>, userToken: String): Single<Int>
+        fun groupCount(input: GroupCountQuery<FcmToken>, userToken: String): Single<Map<String, Int>>
+        fun aggregate(input: AggregateQuery<FcmToken>, userToken: String): Single<Optional<Double>>
+        fun groupAggregate(input: GroupAggregateQuery<FcmToken>, userToken: String): Single<Map<String, Double?>>
+        fun watch(userToken: String): Observable<WebSocketIsh<ListChange<FcmToken>, Query<FcmToken>>>
     }
 }
 

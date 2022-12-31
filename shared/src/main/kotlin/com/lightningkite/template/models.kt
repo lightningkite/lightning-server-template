@@ -21,3 +21,10 @@ data class User(
     @Index val subscriptionId: String? = null,
     @Index val customerId: String? = null,
 ) : HasId<UUID>, HasEmail
+
+@Serializable
+@DatabaseModel
+data class FcmToken(
+    override val _id: String,
+    @References(User::class) val user: UUID
+) : HasId<String>

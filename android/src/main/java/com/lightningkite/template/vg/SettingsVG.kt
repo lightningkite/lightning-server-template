@@ -8,8 +8,6 @@ package com.lightningkite.template.vg
 
 //--- Imports
 
-import android.content.ContentResolver
-import android.provider.Settings.Global.getString
 import android.widget.*
 import android.view.*
 import com.lightningkite.rx.*
@@ -19,18 +17,11 @@ import com.lightningkite.rx.viewgenerators.*
 import com.lightningkite.khrysalis.*
 import com.lightningkite.template.R
 import com.lightningkite.template.User
-import com.lightningkite.template.actual.Preferences
-import com.lightningkite.template.actual.SecurePreferences
 import com.lightningkite.template.api.LiveApi
 import com.lightningkite.template.databinding.*
 import com.lightningkite.template.databinding.SettingsBinding
 import com.lightningkite.template.models.Session
-import com.lightningkite.template.models.UserSession
-import com.lightningkite.template.utils.PreferenceKeys
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.kotlin.addTo
-import io.reactivex.rxjava3.kotlin.subscribeBy
 import java.util.*
 
 //--- Name (overwritten on flow generation)
@@ -102,8 +93,7 @@ class SettingsVG(
 
     //--- Action logoutClick
     fun logoutClick() {
-        SecurePreferences.clear()
-        root.reset(LandingVG(root, root))
+        RootVG.instance.logOut()
     }
 
 

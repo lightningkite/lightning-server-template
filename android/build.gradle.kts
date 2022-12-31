@@ -68,10 +68,12 @@ dependencies {
 
     implementation("com.lightningkite.lightningserver:client:$lightningServerVersion")
     implementation("com.lightningkite.rx:view-generator:$rxPlusVersion")
+    implementation("com.lightningkite.rx:view-generator-fcm:$rxPlusVersion")
     implementation("com.lightningkite.rx:okhttp:$rxPlusVersion")
     implementation("com.lightningkite.rx:okhttp-resources:$rxPlusVersion")
     implementation("com.lightningkite.khrysalis:jvm-runtime:$khrysalisVersion")
     implementation("com.lightningkite.androidlayouttranslator:android-runtime:$androidRuntimeVersion")
+    implementation("androidx.security:security-crypto-ktx:1.1.0-alpha03")
 
     kcp("com.lightningkite.khrysalis:kotlin-compiler-plugin-swift:$khrysalisVersion")
     kcp("com.lightningkite.khrysalis:kotlin-compiler-plugin-typescript:$khrysalisVersion")

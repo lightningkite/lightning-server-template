@@ -9,7 +9,6 @@ package com.lightningkite.template.vg
 //--- Imports
 
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.ToggleButton
@@ -18,10 +17,14 @@ import com.lightningkite.khrysalis.Unowned
 import com.lightningkite.rx.ValueSubject
 import com.lightningkite.rx.android.*
 import com.lightningkite.rx.android.resources.*
+import com.lightningkite.rx.kotlin
 import com.lightningkite.rx.viewgenerators.*
+import com.lightningkite.rx.viewgenerators.fcm.Notifications
+import com.lightningkite.template.FcmToken
+import com.lightningkite.template.R
 import com.lightningkite.template.databinding.SessionBinding
 import com.lightningkite.template.models.Session
-import com.lightningkite.template.models.UserSession
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
 //--- Name (overwritten on flow generation)
@@ -45,7 +48,19 @@ class SessionVG(
         
         //--- helpers
         val showBackButton = sessionStack.map { it.size > 1 }
-        
+        Notifications.configure(dependency)
+        session.user?.let { userSession ->
+            Notifications.notificationToken.switchMapSingle {
+                it.kotlin?.let {
+                    userSession.auth.getSelf().flatMap { user ->
+                        userSession.fcmToken.upsert(it, FcmToken(_id = it, user = user._id))
+                    }
+                } ?: Single.just(Unit)
+            }.subscribeBy(
+                onError = { it.printStackTrace() }
+            )
+        }
+
         //--- Set Up xml.titleBar (overwritten on flow generation)
         
         //--- Set Up xml.backButton (overwritten on flow generation)
@@ -55,7 +70,7 @@ class SessionVG(
 
         //--- Set Up xml.title
         sessionStack.map {
-            (it.lastOrNull() as? HasTitle)?.title ?: ViewStringRaw("¯\\_(ツ)_/¯")
+            (it.lastOrNull() as? HasTitle)?.title ?: ViewStringResource(R.string.app_name)
         }.into(xml.title, TextView::setText)
 
         sessionStack.into(xml.backButton) { isEnabled = it.size > 1 }

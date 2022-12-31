@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.ViewPumpAppCompatDelegate
-import com.lightningkite.template.actual.Preferences
-import com.lightningkite.template.actual.SecurePreferences
 import com.lightningkite.template.vg.RootVG
 import com.lightningkite.androidruntime.SafeInsetsInterceptor
 import com.lightningkite.lightningdb.ClientModule
@@ -17,6 +15,8 @@ import com.lightningkite.rx.viewgenerators.ApplicationAccess
 import com.lightningkite.rx.viewgenerators.FocusOnStartupInterceptor
 import com.lightningkite.rx.viewgenerators.ViewGenerator
 import com.lightningkite.rx.viewgenerators.ViewGeneratorActivity
+import com.lightningkite.rx.viewgenerators.fcm.VGFCMService
+import com.lightningkite.template.notifications.FCMService
 import dev.b3nedikt.viewpump.ViewPump
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -36,17 +36,14 @@ class MainActivity : ViewGeneratorActivity(R.style.AppTheme) {
             SpinnerStyleInterceptor,
             FocusOnStartupInterceptor
         )
-        ApplicationAccess.applicationIsActiveStartup(application)
-        staticApplicationContext = applicationContext
         HttpClient.ioScheduler = Schedulers.io()
         HttpClient.responseScheduler = AndroidSchedulers.mainThread()
+        staticApplicationContext = applicationContext
+        ApplicationAccess.applicationIsActiveStartup(application)
+        FCMService.makeChannels(this)
         defaultJsonMapper = Json { serializersModule = ClientModule }
+        VGFCMService.main = this.main
 
-        //The two separate preferences are used because of the iOS translations. iOS's storage actually has two
-        // different methods. Android does as well, but they have deprecated them from what I can tell.
-        // So far this app isn't large or complicated enough, we could just stuff everything into secure.
-        SecurePreferences.sharedPreferences = this.getSharedPreferences("secure", Context.MODE_PRIVATE)
-        Preferences.sharedPreferences = SecurePreferences.sharedPreferences
         super.onCreate(savedInstanceState)
     }
 
