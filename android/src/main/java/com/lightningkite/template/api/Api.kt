@@ -36,10 +36,12 @@ interface Api {
     interface AuthApi {
         fun refreshToken(userToken: String): Single<String>
         fun getSelf(userToken: String): Single<User>
+        fun anonymousToken(userToken: String?): Single<String>
         fun emailLoginLink(input: String): Single<Unit>
         fun emailPINLogin(input: EmailPinLogin): Single<String>
     }
     interface UserApi {
+        fun default(userToken: String?): Single<User>
         fun query(input: Query<User>, userToken: String?): Single<List<User>>
         fun detail(id: UUID, userToken: String?): Single<User>
         fun insertBulk(input: List<User>, userToken: String?): Single<List<User>>

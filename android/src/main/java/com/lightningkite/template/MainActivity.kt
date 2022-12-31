@@ -22,7 +22,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.serialization.json.Json
 
-class MainActivity : ViewGeneratorActivity() {
+class MainActivity : ViewGeneratorActivity(R.style.AppTheme) {
     companion object {
         val viewData: ViewGenerator by lazy { RootVG() }
     }

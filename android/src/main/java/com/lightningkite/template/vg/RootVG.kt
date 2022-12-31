@@ -9,9 +9,15 @@ package com.lightningkite.template.vg
 //--- Imports
 
 import android.view.View
+import android.widget.ImageButton
 import com.lightningkite.khrysalis.SharedCode
+import com.lightningkite.lightningdb.assign
+import com.lightningkite.lightningdb.modification
 import com.lightningkite.rx.ValueSubject
+import com.lightningkite.rx.android.into
+import com.lightningkite.rx.android.onClick
 import com.lightningkite.rx.android.resources.ViewStringResource
+import com.lightningkite.rx.android.visible
 import com.lightningkite.rx.viewgenerators.*
 import com.lightningkite.template.R
 import com.lightningkite.template.actual.SecurePreferences
@@ -21,9 +27,11 @@ import com.lightningkite.template.databinding.RootBinding
 import com.lightningkite.template.models.AnonymousSession
 import com.lightningkite.template.models.Session
 import com.lightningkite.template.models.UserSession
+import com.lightningkite.template.termsAgreed
 import com.lightningkite.template.utils.PreferenceKeys
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import java.time.Instant
 
 //--- Name (overwritten on flow generation)
 @Suppress("NAME_SHADOWING")
@@ -41,34 +49,25 @@ class RootVG(
 
     //--- Properties
     override fun handleDeepLink(schema: String, host: String, path: String, params: Map<String, String>) {
+        println("Handling deep link!")
+        println("$schema://$host$path?$params")
 
         val option = ServerOptions.availableServers.find {
-            it.api.httpUrl.contains(schema) && it.api.httpUrl.contains(host)
+            it.api.httpUrl.contains(host)
         }
 
+        println("OPTION: $option")
         if (option == null) {
             showDialog(ViewStringResource(R.string.deep_link_was_invalid_server))
         } else {
             params["jwt"]?.let { jwt ->
-                option.api.auth.getSelf(jwt).subscribeBy(
-                    onError = { showDialog(ViewStringResource(R.string.deep_link_was_invalid_credentials)) },
-                    onSuccess = {
-                        SecurePreferences.set(PreferenceKeys.serverKey, option.name)
-                        SecurePreferences.set(PreferenceKeys.sessionKey, jwt)
-                        dialog.value = listOf()
-                        root.reset(
-                            SessionVG(
-                                session = Session(
-                                    AnonymousSession(api = option.api), UserSession(
-                                        api = option.api, userToken = jwt
-                                    )
-                                ),
-                                root = mainStack,
-                                stack = mainStack,
-                            )
-                        )
-                    },
-                )
+                login(option, jwt)
+                    .doOnSubscribe { dialog.reset(LoadingDialogVG()) }
+                    .doOnTerminate { dialog.value = listOf() }
+                    .subscribeBy(
+                        onError = { showDialog(ViewStringResource(R.string.deep_link_was_invalid_credentials)) },
+                        onSuccess = { },
+                    )
             }
         }
 
@@ -80,7 +79,6 @@ class RootVG(
                 SessionVG(
                     session = Session(AnonymousSession(server.api), null),
                     root = mainStack,
-                    stack = mainStack,
                 )
             )
             Single.just(Unit)
@@ -89,16 +87,31 @@ class RootVG(
             session.api.auth.getSelf(session.userToken).doOnSuccess { user ->
                 SecurePreferences.set(PreferenceKeys.serverKey, server.name)
                 SecurePreferences.set(PreferenceKeys.sessionKey, token)
-                dialog.value = listOf()
-                root.reset(
-                    SessionVG(
-                        session = Session(
-                            AnonymousSession(api = server.api), session
-                        ),
-                        root = mainStack,
-                        stack = mainStack,
+                if(user.termsAgreed > Instant.EPOCH) {
+                    dialog.value = listOf()
+                    root.reset(
+                        SessionVG(
+                            session = Session(
+                                AnonymousSession(api = server.api), session
+                            ),
+                            root = mainStack,
+                        )
                     )
-                )
+                } else {
+                    root.push(TermsVG {
+                        session.api.user.modify(user._id, modification { it.termsAgreed assign Instant.now() }, token)
+                            .subscribeBy(onError = { it.printStackTrace() }, onSuccess = { println(it) })
+                        dialog.value = listOf()
+                        root.reset(
+                            SessionVG(
+                                session = Session(
+                                    AnonymousSession(api = server.api), session
+                                ),
+                                root = mainStack,
+                            )
+                        )
+                    })
+                }
             }.map { Unit }
         }
     }
@@ -120,6 +133,12 @@ class RootVG(
         //--- Set Up xml.content (overwritten on flow generation)
         root.showIn(xml.content, dependency)
 
+        //--- Set Up xml.backButton
+        val showBackButton = root.map { it.size > 1 }
+        showBackButton.into(xml.backButton, ImageButton::visible)
+        showBackButton.into(xml.backButton, ImageButton::setClickable)
+        xml.backButton.onClick { this.backButtonClick() }
+
         //--- Set Up xml.dialog (overwritten on flow generation)
         dialog.showIn(xml.dialog, dependency)
 
@@ -136,26 +155,17 @@ class RootVG(
         val option = serverName?.let { ServerOptions.getOptionByName(it) }
         val jwt = SecurePreferences.get<String>(PreferenceKeys.sessionKey)
         if (option != null && jwt != null) {
-            option.api.auth.getSelf(jwt).subscribeBy(
-                onError = {
-                    SecurePreferences.clear()
-                    loginAction()
-                },
-                onSuccess = {
-                    dialog.value = listOf()
-                    root.reset(
-                        SessionVG(
-                            session = Session(
-                                AnonymousSession(api = option.api), UserSession(
-                                    api = option.api, userToken = jwt
-                                )
-                            ),
-                            root = root,
-                            stack = root,
-                        )
-                    )
-                },
-            )
+            login(option, jwt)
+                .doOnSubscribe { dialog.reset(LoadingDialogVG()) }
+                .doOnTerminate { dialog.value = listOf() }
+                .subscribeBy(
+                    onError = {
+                        SecurePreferences.clear()
+                        loginAction()
+                    },
+                    onSuccess = {
+                    },
+                )
         } else {
             SecurePreferences.clear()
             loginAction()
@@ -171,16 +181,17 @@ class RootVG(
 
     //--- Actions
 
-    //--- Action sessionAction
-    fun sessionAction(session: Session) {
-        root.push(SessionVG(stack = root, root = this.root, session = session))
+    //--- Action backButtonClick (overwritten on flow generation)
+    fun backButtonClick() {
+        this.root.pop()
     }
+
+
+    //--- Action sessionAction
 
     //--- Action loginAction
     fun loginAction() {
-        this.root.reset(LoginVG(root = root, onResult = { option, token ->
-            login(option, token)
-        }))
+        this.root.reset(LandingVG(root, root))
     }
 
     //--- Body End

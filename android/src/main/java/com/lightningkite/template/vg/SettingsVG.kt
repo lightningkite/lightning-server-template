@@ -18,15 +18,20 @@ import com.lightningkite.rx.android.resources.*
 import com.lightningkite.rx.viewgenerators.*
 import com.lightningkite.khrysalis.*
 import com.lightningkite.template.R
+import com.lightningkite.template.User
 import com.lightningkite.template.actual.Preferences
+import com.lightningkite.template.actual.SecurePreferences
 import com.lightningkite.template.api.LiveApi
 import com.lightningkite.template.databinding.*
 import com.lightningkite.template.databinding.SettingsBinding
 import com.lightningkite.template.models.Session
 import com.lightningkite.template.models.UserSession
 import com.lightningkite.template.utils.PreferenceKeys
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import java.util.*
 
 //--- Name (overwritten on flow generation)
 @Suppress("NAME_SHADOWING")
@@ -38,51 +43,55 @@ class SettingsVG(
 ) : ViewGenerator, HasTitle {
 
     //--- Properties
-    val working = ValueSubject(true)
+    val working = ValueSubject(false)
 
     override val title: ViewString
         get() = ViewStringResource(R.string.settings)
 
     //--- Generate Start (overwritten on flow generation)
     override fun generate(dependency: ActivityAccess): View {
-
+    
         val xml = SettingsBinding.inflate(dependency.layoutInflater)
 
-        //--- Set Up xml.loadWorking
-        working.showLoading(xml.loadWorking)
-
         //--- Set Up xml.welcomeEmail
-        if (session.user != null) {
-            session.user.auth.getSelf().working(working).subscribeBy(
-                onSuccess = {
-                    xml.welcomeEmail.setText(
-                        ViewStringTemplate(
-                            ViewStringResource(R.string.user_email),
-                            listOf(it.email)
-                        )
-                    )
-                    if (it.subscriptionId != null) {
-                        xml.manageSubscription.onClick { dependency.openUrl("${(session.api as? LiveApi)?.httpUrl ?: "invalid"}/subscriptions/portal?jwt=${session.userToken}") }
-                        xml.manageSubscription.visibility = View.VISIBLE
-                    }
-                },
-                onError = {
-                    println("An error occurred")
-                }
-            ).addTo(xml.root.removed)
+        val user: Single<Optional<User>> = if (session.user != null) {
+            session.user.auth.getSelf().working(working).map { it.optional }.doOnError { it.printStackTrace() }.onErrorReturnItem(Optional.empty()).cache()
         } else {
-            working.value = false
-            xml.welcomeEmail.setText(ViewStringResource(R.string.anon_account))
+            Single.just(Optional.empty())
         }
 
-        //--- Set Up xml.logout (overwritten on flow generation)
-        xml.logout.onClick { this.logoutClick() }
+        user.map {
+            it.kotlin?.email?.let {
+                ViewStringTemplate(
+                    ViewStringResource(R.string.user_email),
+                    listOf(it)
+                )
+            } ?: ViewStringResource(R.string.anon_account)
+        }.into(xml.welcomeEmail, TextView::setText)
 
+        //--- Set Up xml.loadWorking
+        working.into(xml.loadWorking, ViewFlipper::showLoading)
+
+        //--- Set Up xml.subscriptionLink
+        user.toObservable().map { it.isPresent && it.kotlin?.subscriptionId == null }.into(xml.subscriptionLink, View::exists)
+        xml.subscriptionLink.onClick {
+            dependency.openUrl("${(session.api as? LiveApi)?.httpUrl ?: "invalid"}/payment?jwt=${session.userToken}")
+        }
+        
+        //--- Set Up xml.manageSubscription
+        user.toObservable().map { it.kotlin?.subscriptionId != null }.into(xml.manageSubscription, View::exists)
+        xml.manageSubscription.onClick {
+            dependency.openUrl("${(session.api as? LiveApi)?.httpUrl ?: "invalid"}/payment/portal?jwt=${session.userToken}")
+        }
+
+        //--- Set Up xml.logout
+        xml.logout.onClick { logoutClick() }
+        
         //--- Generate End (overwritten on flow generation)
-
+        
         return xml.root
     }
-
+    
     //--- Init
     init {
 
@@ -93,7 +102,8 @@ class SettingsVG(
 
     //--- Action logoutClick
     fun logoutClick() {
-        RootVG.instance.loginAction()
+        SecurePreferences.clear()
+        root.reset(LandingVG(root, root))
     }
 
 

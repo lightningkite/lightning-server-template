@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@color/background"
+                android:padding="@dimen/spacing"
+                >
+
+            <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/logo_title"
+                    android:layout_margin="@dimen/spacing"
+                    />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/SubHeader"
+                    android:text="Choose a log in method:"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/spacing"
+                    />
+
+            <Button
+                    android:id="@+id/email"
+                    style="@style/Button"
+                    android:drawableStart="@drawable/ic_email_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing2"
+                    android:text="@string/sign_in_email"
+                    android:textAllCaps="false"
+                    tools:goTo="@layout/log_in_email"
+                    tools:provides="server: ServerOption"
+                    />
+
+            <Button
+                    android:id="@+id/google"
+                    style="@style/Button"
+                    android:drawableStart="@drawable/ic_google"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing2"
+                    android:text="@string/sign_in_google"
+                    android:background="@drawable/button_white"
+                    android:textColor="#888"
+                    android:textAllCaps="false"
+                    />
+
+            <Button
+                    android:id="@+id/apple"
+                    style="@style/Button"
+                    android:drawableStart="@drawable/ic_apple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing2"
+                    android:text="@string/sign_in_apple"
+                    android:background="@drawable/button_black"
+                    android:textColor="#FFF"
+                    android:textAllCaps="false"
+                    />
+
+            <Button
+                    android:id="@+id/github"
+                    style="@style/Button"
+                    android:drawableStart="@drawable/ic_github_mark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing2"
+                    android:text="@string/sign_in_github"
+                    android:textAllCaps="false"
+                    />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+            android:id="@+id/selectedServer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="16dp"
+            style="@style/Body"
+            tools:text="Staging"
+            />
+
+</FrameLayout>

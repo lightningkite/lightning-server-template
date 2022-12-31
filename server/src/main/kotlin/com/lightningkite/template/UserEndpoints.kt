@@ -18,14 +18,15 @@ class UserEndpoints(path: ServerPath) : ServerPathGroup(path), ModelInfoWithDefa
     override suspend fun collection(principal: User?): FieldCollection<User> {
         val admin: Condition<User> = if(principal?.isSuperUser == true) Condition.Always() else Condition.Never()
         val newUser = if (principal == null) Condition.Always<User>() else Condition.Never()
+        val self: Condition<User> = if(principal != null) condition { it._id eq principal._id } else Condition.Never()
 
         return collection.withPermissions(
             ModelPermissions(
                 create = newUser or admin,
-                read = admin,
-                update = admin,
-                delete = admin,
-            ).permissionsIfNotAdmin(principal)
+                read = admin or self,
+                update = admin or self,
+                delete = admin or self,
+            )
         )
     }
 

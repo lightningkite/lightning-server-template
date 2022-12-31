@@ -53,6 +53,11 @@ class LiveApi(val httpUrl: String, val socketUrl: String): Api {
             method = HttpClient.GET,
             headers = mapOf("Authorization" to "Bearer $userToken"),
         ).readJson()
+        override fun anonymousToken(userToken: String?): Single<String> = HttpClient.call(
+            url = "$httpUrl/auth/anonymous",
+            method = HttpClient.GET,
+            headers = if(userToken != null) mapOf("Authorization" to "Bearer $userToken") else mapOf(),
+        ).readJson()
         override fun emailLoginLink(input: String): Single<Unit> = HttpClient.call(
             url = "$httpUrl/auth/login-email",
             method = HttpClient.POST,
@@ -65,6 +70,11 @@ class LiveApi(val httpUrl: String, val socketUrl: String): Api {
         ).readJson()
     }
     class LiveUserApi(val httpUrl: String, val socketUrl: String): Api.UserApi {
+        override fun default(userToken: String?): Single<User> = HttpClient.call(
+            url = "$httpUrl/users/rest/_default_",
+            method = HttpClient.GET,
+            headers = if(userToken != null) mapOf("Authorization" to "Bearer $userToken") else mapOf(),
+        ).readJson()
         override fun query(input: Query<User>, userToken: String?): Single<List<User>> = HttpClient.call(
             url = "$httpUrl/users/rest/query",
             method = HttpClient.POST,

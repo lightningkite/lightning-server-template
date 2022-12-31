@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:requires="server: ServerOption"
+        >
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@color/background"
+                android:padding="@dimen/spacing"
+                >
+
+            <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/logo_title"
+                    android:layout_margin="@dimen/spacing"
+                    />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/SubHeader"
+                    android:text="Log in with email:"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/spacing"
+                    />
+
+            <EditText
+                    style="@style/TextInput"
+                    android:id="@+id/email"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing"
+                    android:gravity="center"
+                    android:inputType="text|textEmailAddress"
+                    android:hint="@string/emailAddress"
+                    android:autofillHints="emailAddress"
+                    />
+
+            <EditText
+                    android:id="@+id/pin"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing"
+                    style="@style/TextInput"
+                    android:gravity="center"
+                    android:inputType="number|numberPassword"
+                    android:hint="@string/pin"
+                    />
+
+
+            <ViewFlipper
+                    android:id="@+id/submitWorking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing"
+                    >
+
+                <Button
+                        android:id="@+id/submitEmail"
+                        style="@style/Button"
+                        android:layout_margin="0dp"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/log_in"
+                        tools:reset="@root/session"
+                        tools:provides="session: Session"
+                        />
+
+            </ViewFlipper>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

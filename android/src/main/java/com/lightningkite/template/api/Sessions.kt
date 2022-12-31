@@ -14,6 +14,7 @@ import com.lightningkite.lightningserver.files.UploadInformation
 import kotlin.String
 import kotlin.Unit
 import com.lightningkite.lightningserver.auth.EmailPinLogin
+import com.lightningkite.template.User
 import com.lightningkite.lightningdb.Query
 import com.lightningkite.lightningdb.MassModification
 import kotlin.Int
@@ -25,7 +26,6 @@ import com.lightningkite.lightningdb.AggregateQuery
 import kotlin.Double
 import com.lightningkite.lightningdb.GroupAggregateQuery
 import com.lightningkite.lightningdb.ListChange
-import com.lightningkite.template.User
 import com.lightningkite.lightningserver.serverhealth.ServerHealth
 
 open class AbstractAnonymousSession(val api: Api) {
@@ -33,10 +33,12 @@ open class AbstractAnonymousSession(val api: Api) {
     val user: AbstractAnonymousSessionUserApi = AbstractAnonymousSessionUserApi(api.user)
     fun uploadFileForRequest(): Single<UploadInformation> = api.uploadFileForRequest()
     open class AbstractAnonymousSessionAuthApi(val api: Api.AuthApi) {
+        fun anonymousToken(): Single<String> = api.anonymousToken(null)
         fun emailLoginLink(input: String): Single<Unit> = api.emailLoginLink(input)
         fun emailPINLogin(input: EmailPinLogin): Single<String> = api.emailPINLogin(input)
     }
     open class AbstractAnonymousSessionUserApi(val api: Api.UserApi) {
+        fun default(): Single<User> = api.default(null)
         fun query(input: Query<User>): Single<List<User>> = api.query(input, null)
         fun detail(id: UUID): Single<User> = api.detail(id, null)
         fun insertBulk(input: List<User>): Single<List<User>> = api.insertBulk(input, null)
@@ -67,10 +69,12 @@ abstract class AbstractUserSession(api: Api, userToken: String) {
     class UserSessionAuthApi(val api: Api.AuthApi, val userToken: String) {
         fun refreshToken(): Single<String> = api.refreshToken(userToken)
         fun getSelf(): Single<User> = api.getSelf(userToken)
+        fun anonymousToken(): Single<String> = api.anonymousToken(userToken)
         fun emailLoginLink(input: String): Single<Unit> = api.emailLoginLink(input)
         fun emailPINLogin(input: EmailPinLogin): Single<String> = api.emailPINLogin(input)
     }
     class UserSessionUserApi(val api: Api.UserApi, val userToken: String) {
+        fun default(): Single<User> = api.default(userToken)
         fun query(input: Query<User>): Single<List<User>> = api.query(input, userToken)
         fun detail(id: UUID): Single<User> = api.detail(id, userToken)
         fun insertBulk(input: List<User>): Single<List<User>> = api.insertBulk(input, userToken)

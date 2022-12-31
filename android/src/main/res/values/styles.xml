@@ -1,24 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ButtonBase">
+    <style name="Button">
         <item name="android:minHeight">48dp</item>
-        <item name="android:padding">16dp</item>
+        <item name="android:padding">@dimen/spacing2</item>
+        <item name="android:layout_margin">@dimen/spacing</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
         <item name="android:background">@drawable/button_background</item>
         <item name="android:textColor">@color/barForeground</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ButtonTab" parent="@style/Button">
+        <item name="android:background">@drawable/button_toggle</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:padding">@dimen/spacing</item>
+    </style>
+
+    <style name="ButtonAccent">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:padding">@dimen/spacing2</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="android:background">@drawable/button_accent</item>
+        <item name="android:textColor">@color/barForeground</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ButtonSecondary">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:padding">@dimen/spacing2</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@color/foreground</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="Header">
         <item name="android:textSize">24sp</item>
-        <item name="android:fontFamily">@font/josefinsans_regular</item>
+        <item name="android:fontFamily">@font/bebas_bold</item>
         <item name="android:textColor">@color/foreground</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="SubHeader">
         <item name="android:textColor">@color/foreground</item>
+        <item name="android:fontFamily">@font/lato_bold</item>
         <item name="android:textSize">20sp</item>
     </style>
 
@@ -32,7 +71,7 @@
         <item name="android:textColorHint">@color/foregroundFade</item>
         <item name="android:textSize">16sp</item>
         <item name="android:minHeight">48dp</item>
-        <item name="android:padding">16dp</item>
+        <item name="android:padding">@dimen/spacing2</item>
         <item name="android:background">@drawable/textedit_background</item>
     </style>
 

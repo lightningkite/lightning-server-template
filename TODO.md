@@ -1,5 +1,11 @@
 # Full Project Deployment
 
+- [ ] Replace 
+  - [ ] `logo.svg`
+  - [ ] `logo-title.svg`
+  - [ ] `android/src/main/res/drawable-xxhdpi/landing_background.jpg`
+  - [ ] `android/src/main/res/drawable/logo.xml`
+  - [ ] `android/src/main/res/drawable/logo_title.xml`
 - [ ] Get Terraform Ready - TODO
 - [ ] Get MongoDB Atlas access and get an API key. - TODO
 - [ ] Get a Stripe account. - TODO

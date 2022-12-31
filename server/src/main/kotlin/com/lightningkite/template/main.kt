@@ -17,12 +17,6 @@ import java.io.File
 import java.time.Instant
 import java.util.*
 
-fun <Model> allowEverybody() = Condition.Always<Model>()
-fun <Model> allowNobody() = Condition.Never<Model>()
-fun <Model> allowUsers(user: User?) = if (user != null) Condition.Always<Model>() else Condition.Never()
-fun <Model> ModelPermissions<Model>.permissionsIfNotAdmin(user: User?) =
-    if (user?.isSuperUser == true) ModelPermissions.allowAll() else this
-
 fun setup() {
     Server
 }
@@ -30,11 +24,6 @@ fun setup() {
 private fun serve() {
     loadSettings(File("settings.json"))
     runServer(LocalPubSub, LocalCache)
-}
-
-fun createSuperAdmin(email: String) = runBlocking {
-    loadSettings(File("settings.json"))
-    Server.users.collection().insertOne(User(email = email, isSuperUser = true))
 }
 
 fun generateSdk() {
@@ -52,6 +41,6 @@ fun main(vararg args: String) {
     cli(
         arguments = args,
         setup = ::setup,
-        available = listOf(::serve, ::createSuperAdmin, ::generateSdk, ::terraform),
+        available = listOf(::serve, ::generateSdk, ::terraform),
     )
 }

@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.ToggleButton
 import com.lightningkite.khrysalis.SharedCode
 import com.lightningkite.khrysalis.Unowned
 import com.lightningkite.rx.ValueSubject
@@ -29,13 +30,10 @@ class SessionVG(
     //--- Dependencies (overwritten on flow generation)
     @Unowned val root: ViewGeneratorStack,
     val session: Session,
-    @Unowned val stack: ViewGeneratorStack,
     //--- Extends
 ) : ViewGenerator {
 
     //--- Properties
-    val showBackButton = ValueSubject(true)
-    val showSettingsButton = ValueSubject(true)
 
     //--- Provides sessionStack (overwritten on flow generation)
     val sessionStack: ViewGeneratorStack = ValueSubject(listOf())
@@ -44,6 +42,11 @@ class SessionVG(
     override fun generate(dependency: ActivityAccess): View {
     
         val xml = SessionBinding.inflate(dependency.layoutInflater)
+        
+        //--- helpers
+        val showBackButton = sessionStack.map { it.size > 1 }
+        
+        //--- Set Up xml.titleBar (overwritten on flow generation)
         
         //--- Set Up xml.backButton (overwritten on flow generation)
         xml.backButton.onClick { this.backButtonClick() }
@@ -56,28 +59,25 @@ class SessionVG(
         }.into(xml.title, TextView::setText)
 
         sessionStack.into(xml.backButton) { isEnabled = it.size > 1 }
-        sessionStack.into(xml.settings) { isEnabled = it.lastOrNull() !is SettingsVG }
 
         //--- Set Up xml.settings
         showBackButton.into(xml.backButton, ImageButton::visible)
         showBackButton.into(xml.backButton, ImageButton::setClickable)
-        showSettingsButton.into(xml.settings, ImageButton::visible)
-        showSettingsButton.into(xml.settings, ImageButton::setClickable)
-
-        sessionStack.subscribeBy(
-            onNext = {
-                showBackButton.value = it.size > 1
-                showSettingsButton.value = it.lastOrNull() !is SettingsVG
-            },
-            onError = { println("An error occurred") }
-        )
-        xml.settings.onClick {
-            settingsClick()
-            showSettingsButton.value = false
-        }
 
         //--- Set Up xml.session (overwritten on flow generation)
         sessionStack.showIn(xml.session, dependency)
+        
+        //--- Set Up xml.mainTab
+        sessionStack.map { it.first() is SettingsVG }.into(xml.mainTab, ToggleButton::setChecked)
+        xml.mainTab.onClick { this.mainTabClick() }
+        
+        //--- Set Up xml.altTab
+        sessionStack.map { it.first() is SettingsVG }.into(xml.altTab, ToggleButton::setChecked)
+        xml.altTab.onClick { this.altTabClick() }
+        
+        //--- Set Up xml.settingsTab
+        sessionStack.map { it.first() is SettingsVG }.into(xml.settingsTab, ToggleButton::setChecked)
+        xml.settingsTab.onClick { this.settingsTabClick() }
         
         //--- Generate End (overwritten on flow generation)
         
@@ -86,9 +86,7 @@ class SessionVG(
     
     //--- Init
     init {
-        //--- Set Initial View for sessionStack (overwritten on flow generation)
-        this.sessionStack.reset(SettingsVG(this.root, session))
-        
+        mainTabClick()
         //--- Init End
     }
 
@@ -99,9 +97,19 @@ class SessionVG(
         sessionStack.backPressPop()
     }
 
-    //--- Action settingsClick
-    fun settingsClick() {
-        sessionStack.push(SettingsVG(root = this.root, session = this.session))
+    //--- Action mainTabClick (overwritten on flow generation)
+    fun mainTabClick() {
+        this.sessionStack.reset(SettingsVG(root = this.root, session = this.session))
+    }
+    
+    //--- Action altTabClick (overwritten on flow generation)
+    fun altTabClick() {
+        this.sessionStack.reset(SettingsVG(root = this.root, session = this.session))
+    }
+    
+    //--- Action settingsTabClick (overwritten on flow generation)
+    fun settingsTabClick() {
+        this.sessionStack.reset(SettingsVG(root = this.root, session = this.session))
     }
     
     
