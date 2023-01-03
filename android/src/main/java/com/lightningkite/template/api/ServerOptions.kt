@@ -10,9 +10,9 @@ class ServerOption(
 )
 
 object ServerOptions {
-    val local = ServerOption("Local", LiveApi(httpUrl = "http://192.168.1.112:80", socketUrl = "ws://192.168.1.112:80"))
+    val jivie = ServerOption("Jivie", LiveApi(httpUrl = "https://jivie.lightningkite.com", socketUrl = "wss://jivie.lightningkite.com"))
 
-    val availableServers = listOf(local)
+    val availableServers = listOf(jivie)
 
     fun getOptionByName(name: String) = availableServers.find { it.name == name }
 

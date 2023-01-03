@@ -1,0 +1,10 @@
+declare module "*.yaml" { const url: string; export = url }
+declare module "*.ogg" { const url: string; export = url }
+declare module "*.mp3" { const url: string; export = url }
+declare module "*.png" { const url: string; export = url }
+declare module "*.jpg" { const url: string; export = url }
+declare module "*.gif" { const url: string; export = url }
+declare module "*.ttf" { const url: string; export = url }
+declare module "*.eot" { const url: string; export = url }
+declare module "*.svg" { const url: string; export = url }
+declare module "*.woff" { const url: string; export = url }

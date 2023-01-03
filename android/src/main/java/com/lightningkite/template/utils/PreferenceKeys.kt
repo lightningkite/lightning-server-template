@@ -12,11 +12,15 @@ object PreferenceKeys {
     var server: String?
         get() = SecurePreferences.getString(serverKey, null)
         set(value) {
-            SecurePreferences.edit().putString(serverKey, value).apply()
+            value?.let {
+                SecurePreferences.edit().putString(serverKey, it).apply()
+            } ?: SecurePreferences.edit().remove(serverKey).apply()
         }
     var session: String?
         get() = SecurePreferences.getString(sessionKey, null)
         set(value) {
-            SecurePreferences.edit().putString(sessionKey, value).apply()
+            value?.let {
+                SecurePreferences.edit().putString(sessionKey, it).apply()
+            } ?: SecurePreferences.edit().remove(sessionKey).apply()
         }
 }

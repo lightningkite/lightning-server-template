@@ -77,7 +77,7 @@ class SessionVG(
 
         //--- Set Up xml.settings
         showBackButton.into(xml.backButton, ImageButton::visible)
-        showBackButton.into(xml.backButton, ImageButton::setClickable)
+        showBackButton.into(xml.backButton, ImageButton::setEnabled)
 
         //--- Set Up xml.session (overwritten on flow generation)
         sessionStack.showIn(xml.session, dependency)

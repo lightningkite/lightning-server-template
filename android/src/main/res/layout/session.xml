@@ -43,7 +43,6 @@
     <com.lightningkite.rx.viewgenerators.SwapView
             android:id="@+id/session"
             tools:stackId="sessionStack"
-            tools:stackDefault="@layout/set_library"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

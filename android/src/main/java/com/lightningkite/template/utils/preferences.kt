@@ -11,7 +11,7 @@ import com.lightningkite.rx.android.staticApplicationContext
 val Preferences by lazy {
     staticApplicationContext.getSharedPreferences("shared_prefs", Context.MODE_PRIVATE)
 }
-val SecurePreferences by lazy {
+val SecurePreferences: EncryptedSharedPreferences by lazy {
     EncryptedSharedPreferences.create(
         staticApplicationContext,
         "secret_shared_prefs",
@@ -20,5 +20,5 @@ val SecurePreferences by lazy {
             .build(),
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
+    ) as EncryptedSharedPreferences
 }

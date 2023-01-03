@@ -62,11 +62,11 @@ class RootVG(
             it.api.httpUrl.contains(host)
         }
 
-        println("OPTION: $option")
-        if (option == null) {
-            showDialog(ViewStringResource(R.string.deep_link_was_invalid_server))
-        } else {
-            params["jwt"]?.let { jwt ->
+        params["jwt"]?.let { jwt ->
+            println("OPTION: $option")
+            if (option == null) {
+                showDialog(ViewStringResource(R.string.deep_link_was_invalid_server))
+            } else {
                 login(option, jwt)
                     .doOnSubscribe { dialog.reset(LoadingDialogVG()) }
                     .doOnTerminate { dialog.value = listOf() }
@@ -93,7 +93,7 @@ class RootVG(
             session.api.auth.getSelf(session.userToken).doOnSuccess { user ->
                 PreferenceKeys.server = server.name
                 PreferenceKeys.session = token
-                if(user.termsAgreed > Instant.EPOCH) {
+                if (user.termsAgreed > Instant.EPOCH) {
                     dialog.value = listOf()
                     root.reset(
                         SessionVG(
@@ -142,7 +142,7 @@ class RootVG(
         //--- Set Up xml.backButton
         val showBackButton = root.map { it.size > 1 }
         showBackButton.into(xml.backButton, ImageButton::visible)
-        showBackButton.into(xml.backButton, ImageButton::setClickable)
+        showBackButton.into(xml.backButton, ImageButton::setEnabled)
         xml.backButton.onClick { this.backButtonClick() }
 
         //--- Set Up xml.dialog (overwritten on flow generation)
@@ -199,6 +199,7 @@ class RootVG(
     fun loginAction() {
         this.root.reset(LandingVG(root, root))
     }
+
     fun logOut() {
         SecurePreferences.edit().clear().apply()
         loginAction()

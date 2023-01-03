@@ -43,7 +43,7 @@ class LogInEmailVG(
     val pin = ValueSubject("")
     val working = ValueSubject(false)
 
-    private val emailRegex = """[a-zA-Z0-9._+-]+@[a-z]+\.+[a-z]+""".toRegex()
+    private val emailRegex = Regex("""[a-zA-Z0-9._+-]+@[a-z]+\.+[a-z]+""")
 
     //--- Generate Start (overwritten on flow generation)
     override fun generate(dependency: ActivityAccess): View {

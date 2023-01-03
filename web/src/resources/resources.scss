@@ -1,0 +1,360 @@
+@import "~@lightningkite/android-xml-runtime/index.scss";
+@font-face {
+  font-family: Bebas Neue Bold;
+  src: url(./fonts/bebas_bold.ttf);
+}
+@font-face {
+  font-family: Lato;
+  src: url(./fonts/lato_bold.ttf);
+}
+@font-face {
+  font-family: Lato Light;
+  src: url(./fonts/lato_light.ttf);
+}
+$corner_radius: 8.0px;
+$spacing: 8.0px;
+$spacing2: 16.0px;
+$background: #272727ff;
+$backgroundAlpha: #27272780;
+$barForeground: #ffffffff;
+$black: #000000ff;
+$colorAccent: #fcb912ff;
+$colorAccentDark: #7e5d0aff;
+$colorPrimary: #133e4cff;
+$colorPrimaryDark: #0e2f3aff;
+$disabled: #888888ff;
+$foreground: #ffffffff;
+$foregroundFade: #ffffff88;
+$highlight: #0000ffff;
+$ic_launcher_background: #393939ff;
+$lightBlue: #406f9fff;
+$toggleOff: #925857ff;
+$toggleOn: #58443bff;
+$transparent: #00000000;
+$transparentBack: #88888888;
+* {
+}
+.checked, .checked>* {
+}
+:disabled ~ * {
+}
+:active:hover ~ * {
+}
+:focus ~ * {
+}
+.drawable-button_accent {
+background-image: linear-gradient(-135.0deg, #{$colorAccent}, #{$colorAccentDark});
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+&:active:hover {
+background-image: linear-gradient(-135.0deg, #{$colorAccent}, #{$colorAccentDark});
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+&:disabled, :disabled>& {
+background-image: linear-gradient(-135.0deg, #{$colorAccent}, #{$colorAccentDark});
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+}
+.compound-button_accent::after { @extend .drawable-button_accent; }
+.drawable-button_background {
+background-image: linear-gradient(-135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+&:active:hover {
+background-image: linear-gradient(-135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+&:disabled, :disabled>& {
+background-image: linear-gradient(-135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+}
+.compound-button_background::after { @extend .drawable-button_background; }
+.drawable-button_black {
+background-color: #000000ff;
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+&:active:hover {
+background-color: #111111ff;
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+&:disabled, :disabled>& {
+background-color: #888888ff;
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+}
+.compound-button_black::after { @extend .drawable-button_black; }
+.drawable-button_toggle {
+background-color: #{$colorPrimary};
+&.checked, .checked>& {
+background-color: #{$colorPrimaryDark};
+}
+&:active:hover {
+background-color: #{$colorPrimaryDark};
+}
+&:disabled, :disabled>& {
+background-color: #888888ff;
+}
+}
+.compound-button_toggle::after { @extend .drawable-button_toggle; }
+.drawable-button_white {
+background-color: #ffffffff;
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+&:active:hover {
+background-color: #eeeeeeff;
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+&:disabled, :disabled>& {
+background-color: #888888ff;
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+}
+.compound-button_white::after { @extend .drawable-button_white; }
+.drawable-ic_apple {
+@extend .imageDrawable;
+background-image: url("drawables/ic_apple.svg");
+--drawable-width: 46px;
+--drawable-height: 46px;
+}
+.compound-ic_apple::after { @extend .drawable-ic_apple; }
+.drawable-ic_back {
+@extend .imageDrawable;
+background-image: url("drawables/ic_back.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_back::after { @extend .drawable-ic_back; }
+.drawable-ic_back_arrow {
+@extend .imageDrawable;
+background-image: url("drawables/ic_back_arrow.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_back_arrow::after { @extend .drawable-ic_back_arrow; }
+.drawable-ic_close {
+@extend .imageDrawable;
+background-image: url("drawables/ic_close.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_close::after { @extend .drawable-ic_close; }
+.drawable-ic_email {
+@extend .imageDrawable;
+background-image: url("drawables/ic_email.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_email::after { @extend .drawable-ic_email; }
+.drawable-ic_email_login {
+@extend .imageDrawable;
+background-image: url("drawables/ic_email_login.svg");
+--drawable-width: 46px;
+--drawable-height: 46px;
+}
+.compound-ic_email_login::after { @extend .drawable-ic_email_login; }
+.drawable-ic_filter {
+@extend .imageDrawable;
+background-image: url("drawables/ic_filter.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_filter::after { @extend .drawable-ic_filter; }
+.drawable-ic_forward {
+@extend .imageDrawable;
+background-image: url("drawables/ic_forward.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_forward::after { @extend .drawable-ic_forward; }
+.drawable-ic_github_mark {
+@extend .imageDrawable;
+background-image: url("drawables/ic_github_mark.svg");
+--drawable-width: 46px;
+--drawable-height: 46px;
+}
+.compound-ic_github_mark::after { @extend .drawable-ic_github_mark; }
+.drawable-ic_google {
+@extend .imageDrawable;
+background-image: url("drawables/ic_google.svg");
+--drawable-width: 46px;
+--drawable-height: 46px;
+}
+.compound-ic_google::after { @extend .drawable-ic_google; }
+.drawable-ic_home {
+@extend .imageDrawable;
+background-image: url("drawables/ic_home.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_home::after { @extend .drawable-ic_home; }
+.drawable-ic_launcher_foreground {
+@extend .imageDrawable;
+background-image: url("drawables/ic_launcher_foreground.svg");
+--drawable-width: 108px;
+--drawable-height: 108px;
+}
+.compound-ic_launcher_foreground::after { @extend .drawable-ic_launcher_foreground; }
+.drawable-ic_notification {
+@extend .imageDrawable;
+background-image: url("./drawables/ic_notification.png");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_notification::after { @extend .drawable-ic_notification; }
+.drawable-ic_profile {
+@extend .imageDrawable;
+background-image: url("drawables/ic_profile.svg");
+--drawable-width: 25px;
+--drawable-height: 24px;
+}
+.compound-ic_profile::after { @extend .drawable-ic_profile; }
+.drawable-ic_settings {
+@extend .imageDrawable;
+background-image: url("drawables/ic_settings.svg");
+--drawable-width: 20px;
+--drawable-height: 20px;
+}
+.compound-ic_settings::after { @extend .drawable-ic_settings; }
+.drawable-landing_background {
+@extend .imageDrawable;
+background-image: url("./drawables/landing_background.jpg");
+--drawable-width: 1372px;
+--drawable-height: 2051px;
+}
+.compound-landing_background::after { @extend .drawable-landing_background; }
+.drawable-launch_background {
+// WARNING: You can't do that - it would require multiple views inside of this one.
+background-color: #{$background};
+@extend .drawable-logo_title;
+}
+.compound-launch_background::after { @extend .drawable-launch_background; }
+.drawable-logo {
+@extend .imageDrawable;
+background-image: url("drawables/logo.svg");
+--drawable-width: 128px;
+--drawable-height: 128px;
+}
+.compound-logo::after { @extend .drawable-logo; }
+.drawable-logo_title {
+@extend .imageDrawable;
+background-image: url("drawables/logo_title.svg");
+--drawable-width: 300px;
+--drawable-height: 150px;
+}
+.compound-logo_title::after { @extend .drawable-logo_title; }
+.drawable-textedit_background {
+background-color: #00000000;
+border-color: #{$foreground};
+border-width: 2.0px;
+border-style: solid;
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+.compound-textedit_background::after { @extend .drawable-textedit_background; }
+.drawable-transparent_button_background {
+background-color: #{$transparentBack};
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+&:active:hover {
+background-color: #{$transparentBack};
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+&:disabled, :disabled>& {
+background-color: #{$transparentBack};
+border-top-left-radius: 8.0px;
+border-top-right-radius: 8.0px;
+border-bottom-left-radius: 8.0px;
+border-bottom-right-radius: 8.0px;
+}
+}
+.compound-transparent_button_background::after { @extend .drawable-transparent_button_background; }
+.style-AppTheme {
+font-family: "Lato Light", Arial, sans-serif;
+}
+.style-AppThemeLoading {
+@extend .style-AppTheme;
+}
+.style-Body {
+font-size: 16.0pt;
+}
+.style-Button {
+min-height: 48.0px;
+padding: 16.0px;
+margin: 8.0px;
+text-transform: uppercase;
+font-family: "Lato", Arial, sans-serif;
+font-size: 20.0pt;
+box-shadow: 0px 4.0px 4.0px 0px rgba(0,0,0,0.25);
+}
+.style-ButtonAccent {
+@extend .style-Button;
+}
+.style-ButtonSecondary {
+@extend .style-Button;
+box-shadow: 0px 0.0px 0.0px 0px rgba(0,0,0,0.25);
+}
+.style-ButtonTab {
+@extend .style-Button;
+width: 0.0px;
+flex-grow: 1.0;
+flex-shrink: 1.0;
+flex-basis: 0;
+height: unset;
+font-size: 12.0pt;
+margin: 0.0px;
+padding: 8.0px;
+}
+.style-Header {
+font-size: 24.0pt;
+font-family: "Bebas Neue Bold", Arial, sans-serif;
+text-transform: uppercase;
+}
+.style-SubHeader {
+font-family: "Lato", Arial, sans-serif;
+font-size: 20.0pt;
+}
+.style-TextInput {
+font-size: 16.0pt;
+min-height: 48.0px;
+padding: 16.0px;
+}

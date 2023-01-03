@@ -42,6 +42,7 @@ android {
         resources.pickFirsts.add("META-INF/okhttp.kotlin_module")
         resources.pickFirsts.add("META-INF/shared.kotlin_module")
         resources.pickFirsts.add("META-INF/DEPENDENCIES")
+        resources.pickFirsts.add("META-INF/kotlinx_coroutines_core.version")
     }
 
     buildFeatures {
@@ -92,7 +93,16 @@ configure<PrototyperPluginExtension> {
 }
 
 khrysalis {
+    iosProjectFolder = rootDir.resolve("ios")
+    iosSourceFolder = rootDir.resolve("ios/Ios/src")
+
+    webProjectFolder = rootDir.resolve("web")
+    webSourceFolder = rootDir.resolve("web/src/app")
 }
 
 androidLayoutConverter {
+    iosProjectName = "Ios"
+    iosFolder = rootDir.resolve("ios")
+
+    webProjectName = rootProject.name
 }
