@@ -43,7 +43,7 @@ class SettingsVG(
     override fun generate(dependency: ActivityAccess): View {
     
         val xml = SettingsBinding.inflate(dependency.layoutInflater)
-
+        
         //--- Set Up xml.welcomeEmail
         val user: Single<Optional<User>> = if (session.user != null) {
             session.user.auth.getSelf().working(working).map { it.optional }.doOnError { it.printStackTrace() }.onErrorReturnItem(Optional.empty()).cache()

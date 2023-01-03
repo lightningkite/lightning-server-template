@@ -124,21 +124,21 @@ class RootVG(
 
     //--- Provides dialog (overwritten on flow generation)
     val dialog: ViewGeneratorStack = ValueSubject(listOf())
-
+    
     //--- Provides root (overwritten on flow generation)
     val root: ViewGeneratorStack = ValueSubject(listOf())
-
+    
     //--- Back
     override val mainStack: ViewGeneratorStack get() = root
 
     //--- Generate Start (overwritten on flow generation)
     override fun generate(dependency: ActivityAccess): View {
-
+    
         val xml = RootBinding.inflate(dependency.layoutInflater)
-
+        
         //--- Set Up xml.content (overwritten on flow generation)
         root.showIn(xml.content, dependency)
-
+        
         //--- Set Up xml.backButton
         val showBackButton = root.map { it.size > 1 }
         showBackButton.into(xml.backButton, ImageButton::visible)
@@ -147,12 +147,12 @@ class RootVG(
 
         //--- Set Up xml.dialog (overwritten on flow generation)
         dialog.showIn(xml.dialog, dependency)
-
+        
         //--- Generate End (overwritten on flow generation)
-
+        
         return xml.root
     }
-
+    
     //--- Init
     init {
 
@@ -191,8 +191,8 @@ class RootVG(
     fun backButtonClick() {
         this.root.pop()
     }
-
-
+    
+    
     //--- Action sessionAction
 
     //--- Action loginAction

@@ -3,42 +3,49 @@
 import { Drawables } from '../../resources/R'
 import { AppExplanationBinding } from '../../resources/layouts/AppExplanationBinding'
 import { ComponentAppExplanationBinding } from '../../resources/layouts/ComponentAppExplanationBinding'
-import { ViewGenerator, onThrottledEventDo, showInPager } from '@lightningkite/rxjs-plus'
-import { Observable, of } from 'rxjs'
+import { LogInVG } from './LogInVG'
+import { Image, ViewGenerator, ViewGeneratorStack, imageElementSet, showInPager, subscribeAutoDispose, viewExists, xStackSwap } from '@lightningkite/rxjs-plus'
+import { Observable, fromEvent, of } from 'rxjs'
+import { map, mergeMap, take } from 'rxjs/operators'
 
 //! Declares com.lightningkite.template.vg.AppExplanationVG
 export class AppExplanationVG implements ViewGenerator {
     public static implementsViewGenerator = true;
-    public constructor() {
+    public constructor(public readonly root: ViewGeneratorStack, public readonly stack: ViewGeneratorStack) {
+        this.explanations = [new AppExplanationVG.Explanation("Welcome!", Drawables.logo, "Welcome to Lightning Template!  Some features:", undefined, undefined), new AppExplanationVG.Explanation("Notifications", Drawables.ic_settings, "Notifications on Android, iOS, and Web are all built in.  You just need to plug in your credentials!", undefined, undefined), new AppExplanationVG.Explanation("Stripe", Drawables.ic_home, "Stripe subscriptions are a built-in feature for you to monetize your app!", undefined, undefined), new AppExplanationVG.Explanation("Join Us!", Drawables.logo, "We'd love for you to work with our tools!", "Let's go!", (): void => {
+            xStackSwap(this.stack, new LogInVG(this.root, this.stack));
+        })];
     }
     
     
-    //--- Properties
+    
+    public readonly explanations: Array<AppExplanationVG.Explanation>;
     
     public generate(dependency: Window): HTMLElement {
         
         const xml = AppExplanationBinding.inflate();
         
-        //--- Set Up xml.explanation (overwritten on flow generation)
-        of([1, 2, 3, 4])
-            .pipe(showInPager(xml.explanation, undefined, (obs: Observable<number>): HTMLElement => {
+        //--- Set Up xml.explanation
+        of(this.explanations)
+            .pipe(showInPager(xml.explanation, undefined, (obs: Observable<AppExplanationVG.Explanation>): HTMLElement => {
             //--- Make Subview For xml.explanation (overwritten on flow generation)
             const cellXml = ComponentAppExplanationBinding.inflate();
             
-            //--- Set Up cellXml.image (overwritten on flow generation)
-            cellXml.image.src = Drawables.logo.file!;
+            //--- Set Up cellXml.image
+            obs.pipe(map((it: AppExplanationVG.Explanation): Image => (it.image))).pipe(subscribeAutoDispose(cellXml.image, imageElementSet));
             
-            //--- Set Up cellXml.title (overwritten on flow generation)
-            cellXml.title.innerText = "Example Text";
+            //--- Set Up cellXml.title
+            obs.pipe(map((it: AppExplanationVG.Explanation): string => (it.title))).pipe(subscribeAutoDispose(cellXml.title, "innerText"));
             
-            //--- Set Up cellXml.content (overwritten on flow generation)
-            cellXml.content.innerText = "Here is a text explanation";
+            //--- Set Up cellXml.content
+            obs.pipe(map((it: AppExplanationVG.Explanation): string => (it.content))).pipe(subscribeAutoDispose(cellXml.content, "innerText"));
             
-            //--- Set Up cellXml.button (overwritten on flow generation)
-            cellXml.button.innerText = `Let\'s go!`;
-            onThrottledEventDo(cellXml.button, 'click', (): void => {
-                this.cellXmlButtonClick();
-            });
+            //--- Set Up cellXml.button
+            obs.pipe(map((it: AppExplanationVG.Explanation): boolean => (it.buttonTitle !== null))).pipe(subscribeAutoDispose(cellXml.button, viewExists));
+            obs.pipe(map((it: AppExplanationVG.Explanation): string => (it.buttonTitle ?? ""))).pipe(subscribeAutoDispose(cellXml.button, "innerText"));
+            fromEvent(cellXml.button, "click", ev => ev.preventDefault()).pipe(mergeMap((it: void): Observable<AppExplanationVG.Explanation> => (obs.pipe(take(1))))).pipe(subscribeAutoDispose(cellXml.root, (this_: HTMLDivElement, it: AppExplanationVG.Explanation): void => {
+                it.button();
+            }));
             
             //--- End Make Subview For xml.explanation (overwritten on flow generation)
             return cellXml.root;
@@ -58,4 +65,11 @@ export class AppExplanationVG implements ViewGenerator {
     
     
     //--- Body End
+}
+export namespace AppExplanationVG {
+    //! Declares com.lightningkite.template.vg.AppExplanationVG.Explanation
+    export class Explanation {
+        public constructor(public readonly title: string, public readonly image: Image, public readonly content: string, public readonly buttonTitle: (string | null) = null, public readonly button: (() => void) = (): void => {}) {
+        }
+    }
 }

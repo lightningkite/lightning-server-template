@@ -10,6 +10,7 @@ package com.lightningkite.template.vg
 
 import android.widget.*
 import android.view.*
+import com.jakewharton.rxbinding4.view.clicks
 import com.lightningkite.rx.*
 import com.lightningkite.rx.android.*
 import com.lightningkite.rx.android.resources.*
@@ -23,36 +24,74 @@ import io.reactivex.rxjava3.core.Observable
 @Suppress("NAME_SHADOWING")
 class AppExplanationVG(
     //--- Dependencies (overwritten on flow generation)
+    @Unowned val root: ViewGeneratorStack,
+    @Unowned val stack: ViewGeneratorStack,
     //--- Extends
 ) : ViewGenerator {
 
     //--- Properties
+    class Explanation(
+        val title: String,
+        val image: Image,
+        val content: String,
+        val buttonTitle: String? = null,
+        val button: ()->Unit = {},
+    )
+    val explanations = listOf(
+        Explanation(
+            title = "Welcome!",
+            image = ImageResource(R.drawable.logo),
+            content = "Welcome to Lightning Template!  Some features:",
+        ),
+        Explanation(
+            title = "Notifications",
+            image = ImageResource(R.drawable.ic_settings),
+            content = "Notifications on Android, iOS, and Web are all built in.  You just need to plug in your credentials!"
+        ),
+        Explanation(
+            title = "Stripe",
+            image = ImageResource(R.drawable.ic_home),
+            content = "Stripe subscriptions are a built-in feature for you to monetize your app!"
+        ),
+        Explanation(
+            title = "Join Us!",
+            image = ImageResource(R.drawable.logo),
+            content = "We'd love for you to work with our tools!",
+            buttonTitle = "Let's go!",
+            button = {
+                stack.swap(LogInVG(root, stack))
+            }
+        )
+    )
     
     //--- Generate Start (overwritten on flow generation)
     override fun generate(dependency: ActivityAccess): View {
     
         val xml = AppExplanationBinding.inflate(dependency.layoutInflater)
         
-        //--- Set Up xml.explanation (overwritten on flow generation)
-        Observable.just(listOf(1, 2, 3, 4))
+        //--- Set Up xml.explanation
+        Observable.just(explanations)
             .showIn(xml.explanation) label@ { obs ->
         
             //--- Make Subview For xml.explanation (overwritten on flow generation)
             val cellXml = ComponentAppExplanationBinding.inflate(dependency.layoutInflater)
             
-            //--- Set Up cellXml.image (overwritten on flow generation)
-            cellXml.image.setImageResource(R.drawable.logo)
+            //--- Set Up cellXml.image
+                obs.map {it.image}.into(cellXml.image, ImageView::setImage)
+
+            //--- Set Up cellXml.title
+                obs.map {it.title}.into(cellXml.title, TextView::setText)
+
+            //--- Set Up cellXml.content
+                obs.map {it.content}.into(cellXml.content, TextView::setText)
             
-            //--- Set Up cellXml.title (overwritten on flow generation)
-            cellXml.title.setText("Example Text")
-            
-            //--- Set Up cellXml.content (overwritten on flow generation)
-            cellXml.content.setText("Here is a text explanation")
-            
-            //--- Set Up cellXml.button (overwritten on flow generation)
-            cellXml.button.setText("Let\'s go!")
-            cellXml.button.onClick { this.cellXmlButtonClick() }
-            
+            //--- Set Up cellXml.button
+                obs.map {it.buttonTitle != null }.into(cellXml.button, View::exists)
+                obs.map {it.buttonTitle ?: ""}.into(cellXml.button, TextView::setText)
+                cellXml.button.clicks().flatMapSingle { obs.firstOrError() }.into(cellXml.root) {
+                    it.button()
+                }
+
             //--- End Make Subview For xml.explanation (overwritten on flow generation)
             return@label cellXml.root
         }

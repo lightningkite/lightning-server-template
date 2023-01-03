@@ -61,7 +61,7 @@ class LandingVG(
     
     //--- Action anonLoginClick (overwritten on flow generation)
     fun anonLoginClick() {
-        stack.push(AppExplanationVG())
+        stack.push(AppExplanationVG(root = this.root, stack = this.stack))
     }
     
     //--- Action signUpClick (overwritten on flow generation)

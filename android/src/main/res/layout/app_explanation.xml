@@ -5,6 +5,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:orientation="vertical"
              android:transitionGroup="true"
+             tools:goTo="@layout/log_in"
         >
 
     <androidx.viewpager2.widget.ViewPager2

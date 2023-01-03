@@ -45,7 +45,7 @@ export class LandingVG implements ViewGenerator {
     //--- Actions
     
     public anonLoginClick(): void {
-        xStackPush(this.stack, new AppExplanationVG());
+        xStackPush(this.stack, new AppExplanationVG(this.root, this.stack));
     }
     
     public signUpClick(): void {
