@@ -12,11 +12,13 @@ export class ServerOption {
 //! Declares com.lightningkite.template.api.ServerOptions
 export class ServerOptions {
     private constructor() {
+        this.staging = new ServerOption("Staging", new LiveApi("https://templateapi.cs.lightningkite.com", "wss://ws.templateapi.cs.lightningkite.com"));
         this.jivie = new ServerOption("Jivie", new LiveApi("https://jivie.lightningkite.com", "wss://jivie.lightningkite.com"));
-        this.availableServers = [this.jivie];
+        this.availableServers = [this.staging, this.jivie];
     }
     public static INSTANCE = new ServerOptions();
     
+    public readonly staging: ServerOption;
     public readonly jivie: ServerOption;
     
     public readonly availableServers: Array<ServerOption>;

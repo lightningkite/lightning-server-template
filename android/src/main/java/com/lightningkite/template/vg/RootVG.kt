@@ -66,7 +66,7 @@ class RootVG(
     //--- Properties
     override fun handleDeepLink(schema: String, host: String, path: String, params: Map<String, String>) {
         println("Handling deep link!")
-        println("$schema://$host$path?$params")
+        println("$schema://$host$path?${params.entries.joinToString("&") { it.key + "=" + it.value }}")
 
         val option = ServerOptions.availableServers.find {
             it.api.httpUrl.contains(params["server"] ?: "*NEVER*", true)

@@ -76,7 +76,7 @@ object Server : ServerPathGroup(ServerPath.root) {
                     }
                     h1, h2 {
                         font-family: "Lato Light", "sans-serif";
-                    }
+                    } 
                     .message {
                         position: fixed;
                         left: 50%;

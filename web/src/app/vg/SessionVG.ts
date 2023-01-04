@@ -10,7 +10,7 @@ import { ImageButton } from '@lightningkite/android-xml-runtime'
 import { printStackTrace, runOrNull, tryCastInterface } from '@lightningkite/khrysalis-runtime'
 import { ViewGenerator, ViewGeneratorStack, chain, not, onThrottledEventDo, reverse, showInSwapCustom, subscribeAutoDispose, viewVisible, xStackBackPressPop, xStackReset } from '@lightningkite/rxjs-plus'
 import { Notifications } from '@lightningkite/rxjs-plus/fcm'
-import { first } from 'iter-tools-es'
+import { first, takeLastOr } from 'iter-tools-es'
 import { BehaviorSubject, Observable, of } from 'rxjs'
 import { map, mergeMap, switchMap } from 'rxjs/operators'
 
@@ -54,7 +54,7 @@ export class SessionVG implements ViewGenerator {
         //--- Set Up xml.logo
         
         //--- Set Up xml.title
-        this.sessionStack.pipe(map((it: Array<ViewGenerator>): string => (((tryCastInterface<HasTitle>((it[it.length - 1] ?? null), "HasTitle"))?.title ?? null) ?? Strings.app_name))).pipe(subscribeAutoDispose(xml.title, "innerText"));
+        this.sessionStack.pipe(map((it: Array<ViewGenerator>): string => (((tryCastInterface<HasTitle>(takeLastOr(null, it)!, "HasTitle"))?.title ?? null) ?? Strings.app_name))).pipe(subscribeAutoDispose(xml.title, "innerText"));
         
         this.sessionStack.pipe(subscribeAutoDispose(xml.backButton, (this_: ImageButton, it: Array<ViewGenerator>): void => {
             this_.disabled = !(it.length > 1);

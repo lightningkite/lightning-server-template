@@ -10,6 +10,7 @@ package com.lightningkite.template.vg
 
 import android.widget.*
 import android.view.*
+import com.google.android.gms.common.api.Api.ApiOptions
 import com.jakewharton.rxbinding4.view.clicks
 import com.lightningkite.rx.*
 import com.lightningkite.rx.android.*
@@ -17,7 +18,10 @@ import com.lightningkite.rx.android.resources.*
 import com.lightningkite.rx.viewgenerators.*
 import com.lightningkite.khrysalis.*
 import com.lightningkite.template.R
+import com.lightningkite.template.api.ServerOptions
 import com.lightningkite.template.databinding.*
+import com.lightningkite.template.models.AnonymousSession
+import com.lightningkite.template.models.Session
 import io.reactivex.rxjava3.core.Observable
 
 //--- Name (overwritten on flow generation)
@@ -45,21 +49,21 @@ class AppExplanationVG(
         ),
         Explanation(
             title = "Notifications",
-            image = ImageResource(R.drawable.ic_settings),
+            image = ImageResource(R.drawable.ic_circle_notifications),
             content = "Notifications on Android, iOS, and Web are all built in.  You just need to plug in your credentials!"
         ),
         Explanation(
             title = "Stripe",
-            image = ImageResource(R.drawable.ic_home),
+            image = ImageResource(R.drawable.ic_payment),
             content = "Stripe subscriptions are a built-in feature for you to monetize your app!"
         ),
         Explanation(
             title = "Join Us!",
             image = ImageResource(R.drawable.logo),
             content = "We'd love for you to work with our tools!",
-            buttonTitle = "Let's go!",
+            buttonTitle = "Check it out!",
             button = {
-                stack.swap(LogInVG(root, stack))
+                stack.reset(SessionVG(root, Session(AnonymousSession(ServerOptions.availableServers.first().api), null)))
             }
         )
     )

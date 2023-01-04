@@ -16,6 +16,10 @@ terraform {
       source = "hashicorp/archive"
       version = "~> 2.2.0"
     }
+    mongodbatlas = {
+      source = "mongodb/mongodbatlas"
+      version = "~> 1.4"
+    }
   }
   required_version = "~> 1.0"
 }
@@ -23,40 +27,6 @@ terraform {
 ##########
 # main
 ##########
-module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
-
-  name = "LKTemplate-${var.deployment_name}"
-  cidr = "${var.ip_prefix}.0.0/16"
-
-  azs             = ["${var.deployment_location}a", "${var.deployment_location}b", "${var.deployment_location}c"]
-  private_subnets = ["${var.ip_prefix}.1.0/24", "${var.ip_prefix}.2.0/24", "${var.ip_prefix}.3.0/24"]
-  public_subnets  = ["${var.ip_prefix}.101.0/24", "${var.ip_prefix}.102.0/24", "${var.ip_prefix}.103.0/24"]
-
-  enable_nat_gateway = var.lambda_in_vpc
-  single_nat_gateway = true
-  enable_vpn_gateway = false
-  enable_dns_hostnames = !var.lambda_in_vpc
-  enable_dns_support   = true
-}
-
-resource "aws_vpc_endpoint" "s3" {
-  vpc_id = module.vpc.vpc_id
-  service_name = "com.amazonaws.${var.deployment_location}.s3"
-  route_table_ids = module.vpc.public_route_table_ids
-}
-resource "aws_vpc_endpoint" "executeapi" {
-  vpc_id = module.vpc.vpc_id
-  service_name = "com.amazonaws.${var.deployment_location}.execute-api"
-  security_group_ids = [aws_security_group.executeapi.id]
-  vpc_endpoint_type = "Interface"
-}
-resource "aws_vpc_endpoint" "lambdainvoke" {
-  vpc_id = module.vpc.vpc_id
-  service_name = "com.amazonaws.${var.deployment_location}.lambda"
-  security_group_ids = [aws_security_group.lambdainvoke.id]
-  vpc_endpoint_type = "Interface"
-}
 
 resource "aws_api_gateway_account" "main" {
   cloudwatch_role_arn = aws_iam_role.cloudwatch.arn
@@ -107,60 +77,6 @@ resource "aws_iam_role_policy" "cloudwatch" {
 EOF
 }
 
-resource "aws_security_group" "internal" {
-  name   = "LKTemplate-${var.deployment_name}-private"
-  vpc_id = "${module.vpc.vpc_id}"
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = concat(module.vpc.private_subnets_cidr_blocks, module.vpc.public_subnets_cidr_blocks, var.lambda_in_vpc ? [] : ["0.0.0.0/0"])
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = concat(module.vpc.private_subnets_cidr_blocks, module.vpc.public_subnets_cidr_blocks, var.lambda_in_vpc ? [] : ["0.0.0.0/0"])
-  }
-}
-
-resource "aws_security_group" "access_outside" {
-  name   = "LKTemplate-${var.deployment_name}-access-outside"
-  vpc_id = "${module.vpc.vpc_id}"
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "executeapi" {
-  name   = "LKTemplate-${var.deployment_name}-execute-api"
-  vpc_id = "${module.vpc.vpc_id}"
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = [module.vpc.vpc_cidr_block]
-  }
-}
-
-resource "aws_security_group" "lambdainvoke" {
-  name   = "LKTemplate-${var.deployment_name}-lambda-invoke"
-  vpc_id = "${module.vpc.vpc_id}"
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = [module.vpc.vpc_cidr_block]
-  }
-}
 
 ##########
 # jwt
@@ -174,41 +90,50 @@ resource "random_password" "jwt" {
 ##########
 # database
 ##########
+resource "mongodbatlas_project" "database" {
+  name   = "LKTemplate${var.deployment_name}database"
+  org_id = var.database_org_id
+
+  is_collect_database_specifics_statistics_enabled = true
+  is_data_explorer_enabled                         = true
+  is_performance_advisor_enabled                   = true
+  is_realtime_performance_panel_enabled            = true
+  is_schema_advisor_enabled                        = true
+}
+resource "mongodbatlas_project_ip_access_list" "database" {
+  project_id   = mongodbatlas_project.database.id
+  cidr_block = "0.0.0.0/0"
+  comment    = "Anywhere"
+}
 resource "random_password" "database" {
   length           = 32
   special          = true
   override_special = "-_"
 }
-resource "aws_db_subnet_group" "database" {
-  name       = "LKTemplate-${var.deployment_name}-database"
-  subnet_ids = var.lambda_in_vpc ? module.vpc.private_subnets : module.vpc.public_subnets 
-}
-resource "aws_rds_cluster" "database" {
-  cluster_identifier = "LKTemplate-${var.deployment_name}-database"
-  engine             = "aurora-postgresql"
-  engine_mode        = "provisioned"
-  engine_version     = "13.6"
-  database_name      = "LKTemplate${var.deployment_name}database"
-  master_username = "master"
-  master_password = random_password.database.result
-  skip_final_snapshot = var.debug
-  final_snapshot_identifier = "LKTemplate-${var.deployment_name}-database"
-  vpc_security_group_ids = [aws_security_group.internal.id]
-  db_subnet_group_name    = "${aws_db_subnet_group.database.name}"
+resource "mongodbatlas_serverless_instance" "database" {
+  project_id   = mongodbatlas_project.database.id
+  name         = "LKTemplate${var.deployment_name}database"
 
-  serverlessv2_scaling_configuration {
-    min_capacity = var.database_min_capacity
-    max_capacity = var.database_max_capacity
+  provider_settings_backing_provider_name = "AWS"
+  provider_settings_provider_name = "SERVERLESS"
+  provider_settings_region_name = replace(upper(var.deployment_location), "-", "_")
+}
+resource "mongodbatlas_database_user" "database" {
+  username           = "LKTemplate${var.deployment_name}database-main"
+  password           = random_password.database.result
+  project_id         = mongodbatlas_project.database.id
+  auth_database_name = "admin"
+
+  roles {
+    role_name     = "readWrite"
+    database_name = "default"
   }
-}
 
-resource "aws_rds_cluster_instance" "database" {
-  publicly_accessible = !var.lambda_in_vpc
-  cluster_identifier = aws_rds_cluster.database.id
-  instance_class     = "db.serverless"
-  engine             = aws_rds_cluster.database.engine
-  engine_version     = aws_rds_cluster.database.engine_version
-  db_subnet_group_name    = "${aws_db_subnet_group.database.name}"
+  roles {
+    role_name     = "readAnyDatabase"
+    database_name = "admin"
+  }
+
 }
 
 ##########
@@ -219,7 +144,7 @@ resource "aws_rds_cluster_instance" "database" {
 ####
 
 resource "aws_s3_bucket" "files" {
-  bucket_prefix = "LKTemplate-${var.deployment_name}-files"
+  bucket_prefix = "lktemplate-${var.deployment_name}-files"
   force_destroy = var.debug
 }
 resource "aws_s3_bucket_cors_configuration" "files" {
@@ -239,30 +164,30 @@ resource "aws_s3_bucket_cors_configuration" "files" {
     allowed_origins = ["*"]
   }
 }
-resource "aws_s3_bucket_policy" "files" {  
-  bucket = aws_s3_bucket.files.id   
+resource "aws_s3_bucket_policy" "files" {
+  bucket = aws_s3_bucket.files.id
   policy = <<POLICY
-{    
-    "Version": "2012-10-17",    
-    "Statement": [        
-      {            
-          "Sid": "PublicReadGetObject",            
-          "Effect": "Allow",            
-          "Principal": "*",            
-          "Action": [                
-             "s3:GetObject"            
-          ],            
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+          "Sid": "PublicReadGetObject",
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": [
+             "s3:GetObject"
+          ],
           "Resource": [
-             "arn:aws:s3:::${aws_s3_bucket.files.id}/*"            
-          ]        
-      }    
+             "arn:aws:s3:::${aws_s3_bucket.files.id}/*"
+          ]
+      }
     ]
 }
 POLICY
 }
 resource "aws_s3_bucket_acl" "files" {
   bucket = aws_s3_bucket.files.id
-  acl    = var.files_expiry == null ? "public-read" : "private" 
+  acl    = var.files_expiry == null ? "public-read" : "private"
 }
 resource "aws_iam_policy" "files" {
   name        = "LKTemplate-${var.deployment_name}-files"
@@ -318,23 +243,6 @@ resource "aws_iam_user_policy_attachment" "email" {
   policy_arn = aws_iam_policy.email.arn
 }
 
-resource "aws_security_group" "email" {
-  name   = "LKTemplate-${var.deployment_name}-${var.deployment_name}-email"
-  vpc_id = module.vpc.vpc_id
-
-  ingress {
-    from_port   = 587
-    to_port     = 587
-    protocol    = "tcp"
-    cidr_blocks = [module.vpc.vpc_cidr_block]
-  }
-}
-resource "aws_vpc_endpoint" "email" {
-  vpc_id = module.vpc.vpc_id
-  service_name = "com.amazonaws.${var.deployment_location}.email-smtp"
-  security_group_ids = [aws_security_group.email.id]
-  vpc_endpoint_type = "Interface"
-}
 
 ##########
 # HTTP
@@ -587,7 +495,7 @@ resource "aws_cloudwatch_event_rule" "panic" {
     "detail-type" = ["CloudWatch Alarm State Change"]
     detail = {
       alarmName = [
-        aws_cloudwatch_metric_alarm.panic_invocations.alarm_name, 
+        aws_cloudwatch_metric_alarm.panic_invocations.alarm_name,
         aws_cloudwatch_metric_alarm.panic_compute.alarm_name
       ]
       previousState = {
@@ -686,7 +594,7 @@ resource "aws_lambda_permission" "scheduled_task_cleanupUploads" {
 # Main
 ##########
 resource "aws_s3_bucket" "lambda_bucket" {
-  bucket_prefix = "LKTemplate-${var.deployment_name}-lambda-bucket"
+  bucket_prefix = "lktemplate-${var.deployment_name}-lambda-bucket"
   force_destroy = true
 }
 resource "aws_s3_bucket_acl" "lambda_bucket" {
@@ -742,10 +650,6 @@ resource "aws_iam_role_policy_attachment" "dynamo" {
 resource "aws_iam_role_policy_attachment" "main_policy_exec" {
   role       = aws_iam_role.main_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-resource "aws_iam_role_policy_attachment" "main_policy_vpc" {
-  role       = aws_iam_role.main_exec.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
 resource "aws_iam_policy" "dynamo" {
@@ -806,8 +710,8 @@ resource "aws_s3_object" "app_settings" {
         url = "dynamodb://${var.deployment_location}/LKTemplate-${var.deployment_name}_${var.deployment_name}"
     }
     jwt = {
-        expirationMilliseconds = var.jwt_expirationMilliseconds 
-        emailExpirationMilliseconds = var.jwt_emailExpirationMilliseconds 
+        expirationMilliseconds = var.jwt_expirationMilliseconds
+        emailExpirationMilliseconds = var.jwt_emailExpirationMilliseconds
         secret = random_password.jwt.result
     }
     oauth_github = var.oauth_github
@@ -821,8 +725,9 @@ resource "aws_s3_object" "app_settings" {
         cors = var.cors
     }
     database = {
-        url = "postgresql://master:${random_password.database.result}@${aws_rds_cluster.database.endpoint}/LKTemplate${var.deployment_name}database"
+      url = "mongodb+srv://LKTemplate${var.deployment_name}database-main:${random_password.database.result}@${replace(mongodbatlas_serverless_instance.database.connection_strings_standard_srv, "mongodb+srv://", "")}/default?retryWrites=true&w=majority"
     }
+    webUrl = var.webUrl
     stripe = var.stripe
     logging = var.logging
     files = {
@@ -831,7 +736,7 @@ resource "aws_s3_object" "app_settings" {
     }
     metrics = var.metrics
     email = {
-        url = "smtp://${aws_iam_access_key.email.id}:${aws_iam_access_key.email.ses_smtp_password_v4}@email-smtp.us-west-2.amazonaws.com:587" 
+        url = "smtp://${aws_iam_access_key.email.id}:${aws_iam_access_key.email.ses_smtp_password_v4}@email-smtp.us-west-2.amazonaws.com:587"
         fromEmail = var.email_sender
     }
     notifications = var.notifications
@@ -846,7 +751,7 @@ resource "aws_lambda_function" "main" {
 
   runtime = "java11"
   handler = "com.lightningkite.template.AwsHandler"
-  
+
   memory_size = "${var.lambda_memory_size}"
   timeout = var.lambda_timeout
   # memory_size = "1024"
@@ -854,22 +759,14 @@ resource "aws_lambda_function" "main" {
   source_code_hash = filebase64sha256(local.lambda_source)
 
   role = aws_iam_role.main_exec.arn
-  
-  dynamic "vpc_config" {
-    for_each = var.lambda_in_vpc ? [1] : []
-    content {
-      subnet_ids = module.vpc.private_subnets
-      security_group_ids = [aws_security_group.internal.id, aws_security_group.access_outside.id]
-    }
-  }
-  
+
   environment {
     variables = {
       LIGHTNING_SERVER_SETTINGS_BUCKET = aws_s3_object.app_settings.bucket
       LIGHTNING_SERVER_SETTINGS_FILE = aws_s3_object.app_settings.key
     }
   }
-  
+
   depends_on = [aws_s3_object.app_storage]
 }
 

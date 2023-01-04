@@ -3,8 +3,11 @@
 import { Drawables } from '../../resources/R'
 import { AppExplanationBinding } from '../../resources/layouts/AppExplanationBinding'
 import { ComponentAppExplanationBinding } from '../../resources/layouts/ComponentAppExplanationBinding'
-import { LogInVG } from './LogInVG'
-import { Image, ViewGenerator, ViewGeneratorStack, imageElementSet, showInPager, subscribeAutoDispose, viewExists, xStackSwap } from '@lightningkite/rxjs-plus'
+import { ServerOptions } from '../api/ServerOptions'
+import { AnonymousSession, Session } from '../models/UserSession'
+import { SessionVG } from './SessionVG'
+import { Image, ViewGenerator, ViewGeneratorStack, imageElementSet, showInPager, subscribeAutoDispose, viewExists, xStackReset } from '@lightningkite/rxjs-plus'
+import { first } from 'iter-tools-es'
 import { Observable, fromEvent, of } from 'rxjs'
 import { map, mergeMap, take } from 'rxjs/operators'
 
@@ -12,8 +15,8 @@ import { map, mergeMap, take } from 'rxjs/operators'
 export class AppExplanationVG implements ViewGenerator {
     public static implementsViewGenerator = true;
     public constructor(public readonly root: ViewGeneratorStack, public readonly stack: ViewGeneratorStack) {
-        this.explanations = [new AppExplanationVG.Explanation("Welcome!", Drawables.logo, "Welcome to Lightning Template!  Some features:", undefined, undefined), new AppExplanationVG.Explanation("Notifications", Drawables.ic_settings, "Notifications on Android, iOS, and Web are all built in.  You just need to plug in your credentials!", undefined, undefined), new AppExplanationVG.Explanation("Stripe", Drawables.ic_home, "Stripe subscriptions are a built-in feature for you to monetize your app!", undefined, undefined), new AppExplanationVG.Explanation("Join Us!", Drawables.logo, "We'd love for you to work with our tools!", "Let's go!", (): void => {
-            xStackSwap(this.stack, new LogInVG(this.root, this.stack));
+        this.explanations = [new AppExplanationVG.Explanation("Welcome!", Drawables.logo, "Welcome to Lightning Template!  Some features:", undefined, undefined), new AppExplanationVG.Explanation("Notifications", Drawables.ic_circle_notifications, "Notifications on Android, iOS, and Web are all built in.  You just need to plug in your credentials!", undefined, undefined), new AppExplanationVG.Explanation("Stripe", Drawables.ic_payment, "Stripe subscriptions are a built-in feature for you to monetize your app!", undefined, undefined), new AppExplanationVG.Explanation("Join Us!", Drawables.logo, "We'd love for you to work with our tools!", "Check it out!", (): void => {
+            xStackReset(this.stack, new SessionVG(this.root, new Session(new AnonymousSession(first(ServerOptions.INSTANCE.availableServers)!.api), null)));
         })];
     }
     

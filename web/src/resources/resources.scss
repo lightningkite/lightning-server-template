@@ -164,6 +164,13 @@ background-image: url("drawables/ic_back_arrow.svg");
 --drawable-height: 24px;
 }
 .compound-ic_back_arrow::after { @extend .drawable-ic_back_arrow; }
+.drawable-ic_circle_notifications {
+@extend .imageDrawable;
+background-image: url("drawables/ic_circle_notifications.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_circle_notifications::after { @extend .drawable-ic_circle_notifications; }
 .drawable-ic_close {
 @extend .imageDrawable;
 background-image: url("drawables/ic_close.svg");
@@ -234,6 +241,13 @@ background-image: url("./drawables/ic_notification.png");
 --drawable-height: 24px;
 }
 .compound-ic_notification::after { @extend .drawable-ic_notification; }
+.drawable-ic_payment {
+@extend .imageDrawable;
+background-image: url("drawables/ic_payment.svg");
+--drawable-width: 24px;
+--drawable-height: 24px;
+}
+.compound-ic_payment::after { @extend .drawable-ic_payment; }
 .drawable-ic_profile {
 @extend .imageDrawable;
 background-image: url("drawables/ic_profile.svg");

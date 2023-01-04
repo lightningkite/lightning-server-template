@@ -16,6 +16,10 @@ terraform {
       source = "hashicorp/archive"
       version = "~> 2.2.0"
     }
+    mongodbatlas = {
+      source = "mongodb/mongodbatlas"
+      version = "~> 1.4"
+    }
   }
   required_version = "~> 1.0"
 }
@@ -41,9 +45,9 @@ module "Base" {
   cors = var.cors
   display_name = var.display_name
   # database
-  database_min_capacity = var.database_min_capacity
-  database_max_capacity = var.database_max_capacity
-  database_auto_pause = var.database_auto_pause
+  database_org_id = var.database_org_id
+  # webUrl
+  webUrl = var.webUrl
   # stripe
   stripe = var.stripe
   # logging

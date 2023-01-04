@@ -21,8 +21,8 @@ terraform {
 }
 terraform {
   backend "s3" {
-    bucket = "ivieleague-deployment-states"
-    key    = "demo/example"
+    bucket = "lightningkite-terraform"
+    key    = "template/cs"
     region = "us-west-2"
   }
 }
@@ -44,9 +44,9 @@ provider "mongodbatlas" {
 module "domain" {
   source              = "../domain"
   deployment_location = "us-west-2"
-  deployment_name     = "example"
-  domain_name         = "example.demo.ivieleague.com"
-  domain_name_zone    = "ivieleague.com"
+  deployment_name     = "templateapi"
+  domain_name         = "templateapi.cs.lightningkite.com"
+  domain_name_zone    = "cs.lightningkite.com"
   debug               = true
   lambda_in_vpc   = false
   database_org_id = "6323a65c43d66b56a2ea5aea"
@@ -56,6 +56,7 @@ module "domain" {
   }
   oauth_google = local.oauth_google
   oauth_apple = local.oauth_apple
+  oauth_github = local.oauth_github
   reporting_email = "joseph@lightningkite.com"
   metrics = {
     url = "db://database"
@@ -64,6 +65,14 @@ module "domain" {
     ]
     trackingTotalsOnly = []
   }
+  exceptions = {
+    url = "sentry://https://d965bf7aacd944b1ab7fad7bc7638195@sentry9.lightningkite.com/74"
+  }
   emergencyContact = "joseph@lightningkite.com"
-#  files_expiry = null
+  stripe = local.stripe
+  emergencyInvocationsPerMinuteThreshold = 1000
+  emergencyComputePerMinuteThreshold = 100000
+  panicInvocationsPerMinuteThreshold = 5000
+  panicComputePerMinuteThreshold = 500000
+  webUrl = "https://template.cs.lightningkite.com"
 }

@@ -14,13 +14,13 @@ import { LoadingDialogVG } from './LoadingDialogVG'
 import { SessionVG } from './SessionVG'
 import { TermsVG } from './TermsVG'
 import { Instant } from '@js-joda/core'
-import { printStackTrace, runOrNull } from '@lightningkite/khrysalis-runtime'
+import { join, printStackTrace, runOrNull } from '@lightningkite/khrysalis-runtime'
 import { Condition, Modification, PropChain, condition, modification, xPropChainAssign, xPropChainEq } from '@lightningkite/lightning-server'
 import { EntryPoint, ViewGenerator, ViewGeneratorStack, doOnSubscribe, not, onThrottledEventDo, reverse, showDialog, showInSwapCustom, subscribeAutoDispose, viewVisible, xStackBackPressPop, xStackPush, xStackReset } from '@lightningkite/rxjs-plus'
 import { ForegroundNotificationHandler, ForegroundNotificationHandlerResult, Notifications } from '@lightningkite/rxjs-plus/fcm'
-import { findOr } from 'iter-tools-es'
+import { execPipe, findOr, map } from 'iter-tools-es'
 import { BehaviorSubject, Observable, SubscriptionLike, of } from 'rxjs'
-import { map, tap } from 'rxjs/operators'
+import { map as oMap, tap } from 'rxjs/operators'
 
 //! Declares com.lightningkite.template.vg.RootVG
 export class RootVG implements ViewGenerator, EntryPoint, ForegroundNotificationHandler {
@@ -73,25 +73,25 @@ export class RootVG implements ViewGenerator, EntryPoint, ForegroundNotification
     
     public handleDeepLink(schema: string, host: string, path: string, params: Map<string, string>): void {
         console.log("Handling deep link!");
-        console.log(`${schema}://${host}${path}?${params}`);
+        console.log(`${schema}://${host}${path}?${execPipe(new Set([...params.entries()]), map((it: [string, string]): string => (it[0] + "=" + it[1])), join("&"))}`);
         
         const option = findOr(null, (it: ServerOption): boolean => ((it.api.httpUrl.toLowerCase().indexOf((params.get("server") ?? null) ?? "*NEVER*".toLowerCase()) != -1)), ServerOptions.INSTANCE.availableServers);
         
-        const jwt_24 = (params.get("jwt") ?? null);
-        if (jwt_24 !== null) {
+        const jwt_31 = (params.get("jwt") ?? null);
+        if (jwt_31 !== null) {
             console.log(`OPTION: ${option}`);
             if (option === null) {
                 showDialog(Strings.deep_link_was_invalid_server);
             } else {
                 ((): Observable<void> => {
-                    const temp32 = (): void => {
+                    const temp39 = (): void => {
                         this.dialog.next([]);
                     };
-                    return this.login(option!, jwt_24)
+                    return this.login(option!, jwt_31)
                         .pipe(doOnSubscribe((it: SubscriptionLike): void => {
                         xStackReset(this.dialog, new LoadingDialogVG());
                     }))
-                        .pipe(tap(temp32, temp32))
+                        .pipe(tap(temp39, temp39))
                 })()
                     .subscribe((it: void): void => {}, (it: any): void => {
                     showDialog(Strings.deep_link_was_invalid_credentials);
@@ -126,7 +126,7 @@ export class RootVG implements ViewGenerator, EntryPoint, ForegroundNotification
                             xStackReset(this.root, new SessionVG(this.mainStack, new Session(new AnonymousSession(server.api), session)));
                         }));
                     }
-                })).pipe(map((it: User): void => {
+                })).pipe(oMap((it: User): void => {
                     return undefined;
                 }));
             }
@@ -149,7 +149,7 @@ export class RootVG implements ViewGenerator, EntryPoint, ForegroundNotification
         this.root.pipe(showInSwapCustom(xml.content, dependency, undefined));
         
         //--- Set Up xml.backButton
-        const showBackButton = this.root.pipe(map((it: Array<ViewGenerator>): boolean => (it.length > 1)));
+        const showBackButton = this.root.pipe(oMap((it: Array<ViewGenerator>): boolean => (it.length > 1)));
         showBackButton.pipe(subscribeAutoDispose(xml.backButton, viewVisible));
         showBackButton.pipe(subscribeAutoDispose(xml.backButton, reverse("disabled", not)));
         onThrottledEventDo(xml.backButton, 'click', (): void => {
@@ -180,11 +180,11 @@ export class RootVG implements ViewGenerator, EntryPoint, ForegroundNotification
     }
     
     public logOut(session: Session): void {
-        const it_76 = session.user;
-        if (it_76 !== null) {
-            const token_77 = Notifications.INSTANCE.notificationToken.value;
-            if (token_77 !== null) {
-                it_76.fcmToken.bulkDelete(condition<FcmToken>((it: PropChain<FcmToken, FcmToken>): Condition<FcmToken> => (xPropChainEq<FcmToken, string>(xPropChain_idGet(it), token_77))))
+        const it_83 = session.user;
+        if (it_83 !== null) {
+            const token_84 = Notifications.INSTANCE.notificationToken.value;
+            if (token_84 !== null) {
+                it_83.fcmToken.bulkDelete(condition<FcmToken>((it: PropChain<FcmToken, FcmToken>): Condition<FcmToken> => (xPropChainEq<FcmToken, string>(xPropChain_idGet(it), token_84))))
                     .subscribe((it: number): void => {}, (it: any): void => {});
             }
         }

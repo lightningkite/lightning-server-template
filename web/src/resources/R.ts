@@ -58,7 +58,7 @@ export namespace DefaultStrings {
     export const deep_link_was_invalid_credentials = "The deep link was invalid. Login credentials did not work."
     export const deep_link_was_invalid_server = "The deep link was invalid. Could not find a server that matched the link."
     export const emailAddress = "Email Address"
-    export const email_sent = "Email sent!"
+    export const email_sent = "Email sent! You can either click the link in your email OR enter the received PIN."
     export const enter_email_to_login = "Enter your email address to log into the app:"
     export const generic_error = "An error occurred"
     export const google = "Google"
@@ -114,6 +114,7 @@ export namespace Dimen {
 import drawable_ic_apple from "./drawables/ic_apple.svg"
 import drawable_ic_back from "./drawables/ic_back.svg"
 import drawable_ic_back_arrow from "./drawables/ic_back_arrow.svg"
+import drawable_ic_circle_notifications from "./drawables/ic_circle_notifications.svg"
 import drawable_ic_close from "./drawables/ic_close.svg"
 import drawable_ic_email from "./drawables/ic_email.svg"
 import drawable_ic_email_login from "./drawables/ic_email_login.svg"
@@ -124,6 +125,7 @@ import drawable_ic_google from "./drawables/ic_google.svg"
 import drawable_ic_home from "./drawables/ic_home.svg"
 import drawable_ic_launcher_foreground from "./drawables/ic_launcher_foreground.svg"
 import drawable_ic_notification from "./drawables/ic_notification.png"
+import drawable_ic_payment from "./drawables/ic_payment.svg"
 import drawable_ic_profile from "./drawables/ic_profile.svg"
 import drawable_ic_settings from "./drawables/ic_settings.svg"
 import drawable_landing_background from "./drawables/landing_background.jpg"
@@ -138,6 +140,7 @@ export namespace Drawables {
     export const ic_apple = {name: "ic_apple", file: drawable_ic_apple}
     export const ic_back = {name: "ic_back", file: drawable_ic_back}
     export const ic_back_arrow = {name: "ic_back_arrow", file: drawable_ic_back_arrow}
+    export const ic_circle_notifications = {name: "ic_circle_notifications", file: drawable_ic_circle_notifications}
     export const ic_close = {name: "ic_close", file: drawable_ic_close}
     export const ic_email = {name: "ic_email", file: drawable_ic_email}
     export const ic_email_login = {name: "ic_email_login", file: drawable_ic_email_login}
@@ -148,6 +151,7 @@ export namespace Drawables {
     export const ic_home = {name: "ic_home", file: drawable_ic_home}
     export const ic_launcher_foreground = {name: "ic_launcher_foreground", file: drawable_ic_launcher_foreground}
     export const ic_notification = {name: "ic_notification", file: drawable_ic_notification}
+    export const ic_payment = {name: "ic_payment", file: drawable_ic_payment}
     export const ic_profile = {name: "ic_profile", file: drawable_ic_profile}
     export const ic_settings = {name: "ic_settings", file: drawable_ic_settings}
     export const landing_background = {name: "landing_background", file: drawable_landing_background}

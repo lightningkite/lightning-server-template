@@ -78,17 +78,16 @@ variable "display_name" {
 ##########
 # database
 ##########
-variable "database_min_capacity" {
-    type = number
-    default = 0.5
+variable "database_org_id" {
+    type = string
 }
-variable "database_max_capacity" {
-    type = number
-    default = 2
-}
-variable "database_auto_pause" {
-    type = bool
-    default = true
+
+##########
+# webUrl
+##########
+variable "webUrl" {
+    type = any
+    default = "lightningtemplate:///session"
 }
 
 ##########
