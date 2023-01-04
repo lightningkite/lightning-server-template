@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["com.lightningkite.template"],
+        "components": [
+          {
+             "/": "/*",
+             "comment": "Matches any URL with a path to this domain."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -9,6 +9,12 @@
 - [ ] Get Terraform Ready - TODO
 - [ ] Get MongoDB Atlas access and get an API key. - TODO
 - [ ] Get a Stripe account. - TODO
+- [ ] Universal Links
+  - [ ] Get a domain ready for your web app. - TODO
+  - [ ] Plug the domain name into The intent data filter in [android/src/main/AndroidManifest.xml](android/src/main/AndroidManifest.xml)
+  - [ ] Plug the domain name into the iOS info.plist. - TODO
+  - [ ] Plug the SHA256 hash from the Gradle task `signingReport` into [web/dist/.well-known/apple-app-site-association](web/dist/.well-known/apple-app-site-association)'s well-known asset links.
+  - [ ] Plug the iOS bundle name into [web/dist/.well-known/assetlinks.json](web/dist/.well-known/assetlinks.json)'s well-known asset links.
 - [ ] Get a Firebase project for notifications.
   - [ ] Android Setup
     - [ ] Generate a new keystore for Android.
@@ -21,7 +27,10 @@
   - [ ] Server Setup
     - [ ] In Project Settings -> Service accounts, download a private key for the server to use.
     - [ ] Add the credentials to your deployment in `server/terraform/your-deployment/local.tf`.
+  - [ ] Web Setup
+    - [ ] Create a new web app in Firebase and copy the credentials.
+    - [ ] Get a new VAPID key in Firebase from Project Settings -> Cloud Messaging -> Web Push certificates
+    - [ ] Replace the credentials in [`web/src/index.ts`](web/src/index.ts) and [`web/dist/firebase-messaging-sw.js`](web/dist/firebase-messaging-sw.js)
   - [ ] iOS Setup - TODO
-  - [ ] Web Setup - TODO
 - [ ] Get a Google Play Account. - TODO
 - [ ] Get an Apple App Store Account. - TODO

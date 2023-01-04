@@ -6,13 +6,14 @@ import { ServerOption } from '../api/ServerOptions'
 import { RootVG } from './RootVG'
 import { printStackTrace, xCharSequenceIsBlank } from '@lightningkite/khrysalis-runtime'
 import { EmailPinLogin } from '@lightningkite/lightning-server'
-import { ViewGenerator, ViewGeneratorStack, bind, hasClass, setOnWhileActive, showDialog, subscribeAutoDispose, viewExists } from '@lightningkite/rxjs-plus'
+import { HasBackAction, ViewGenerator, ViewGeneratorStack, bind, hasClass, setOnWhileActive, showDialog, subscribeAutoDispose, viewExists } from '@lightningkite/rxjs-plus'
 import { BehaviorSubject, Observable, combineLatest, fromEvent, merge, of } from 'rxjs'
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators'
 
 //! Declares com.lightningkite.template.vg.LogInEmailVG
-export class LogInEmailVG implements ViewGenerator {
+export class LogInEmailVG implements ViewGenerator, HasBackAction {
     public static implementsViewGenerator = true;
+    public static implementsHasBackAction = true;
     public constructor(public readonly root: ViewGeneratorStack, public readonly server: ServerOption) {
         this.email = new BehaviorSubject("");
         this.pinEmail = new BehaviorSubject("-");
@@ -55,7 +56,10 @@ export class LogInEmailVG implements ViewGenerator {
                 })).pipe(setOnWhileActive(this.working)).pipe(tap(undefined, (it: any): void => {
                     printStackTrace(it);
                     showDialog(Strings.generic_error);
-                })).pipe(catchError(() => of(undefined)));
+                    this.pinEmail.next("-");
+                })).pipe(catchError(() => of(undefined))).pipe(tap((it: void): void => {
+                    xml.pin.focus();
+                }));
             } else {
                 return ((): Observable<void> => {
                     if (this.emailRegex.test(this.email.value)) {
@@ -64,6 +68,7 @@ export class LogInEmailVG implements ViewGenerator {
                             this.pinEmail.next(this.email.value);
                             showDialog(Strings.email_sent);
                         })).pipe(tap(undefined, (it: any): void => {
+                            printStackTrace(it);
                             showDialog(Strings.generic_error);
                         })).pipe(catchError(() => of(undefined)));
                     } else {
@@ -79,6 +84,14 @@ export class LogInEmailVG implements ViewGenerator {
         //--- Generate End (overwritten on flow generation)
         
         return xml.root;
+    }
+    
+    public onBackPressed(): boolean {
+        if (this.email.value === this.pinEmail.value) {
+            this.pinEmail.next("-");
+            return true;
+        }
+        return false;
     }
     
     

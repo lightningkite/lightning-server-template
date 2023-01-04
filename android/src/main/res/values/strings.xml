@@ -26,7 +26,7 @@
     <string name="subscribe">Subscribe</string>
     <string name="subscription_link">Manage Your Subscription</string>
     <string name="pin">PIN</string>
-    <string name="email_sent">Email sent!</string>
+    <string name="email_sent">Email sent!  You can either click the link in your email OR enter the received PIN.</string>
     <string name="google">Google</string>
     <string name="apple">Apple</string>
     <string name="settings">Settings</string>

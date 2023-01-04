@@ -1,11 +1,13 @@
 package com.lightningkite.template.stripe
 
 import com.lightningkite.lightningdb.*
+import com.lightningkite.lightningserver.HtmlDefaults
 import com.lightningkite.lightningserver.auth.user
 import com.lightningkite.lightningserver.core.ServerPath
 import com.lightningkite.lightningserver.core.ServerPathGroup
 import com.lightningkite.lightningserver.exceptions.NotFoundException
 import com.lightningkite.lightningserver.http.*
+import com.lightningkite.lightningserver.routes.fullUrl
 import com.lightningkite.lightningserver.schedule.schedule
 import com.lightningkite.lightningserver.settings.generalSettings
 import com.lightningkite.lightningserver.tasks.task
@@ -92,6 +94,18 @@ class StripeEndpoints(path: ServerPath) : ServerPathGroup(path) {
                 )!!
             }
     }
+    val landingSuccess = path("landing-success").get.handler {
+        HttpResponse.Companion.html(content = HtmlDefaults.basePage("""
+            <h2>Success!</h2>
+            <p>You may now close this window.</p>
+        """.trimIndent()))
+    }
+    val landingReturn = path("landing-close").get.handler {
+        HttpResponse.Companion.html(content = HtmlDefaults.basePage("""
+            <h2>Return to the App</h2>
+            <p>You may now close this window and return to the app.</p>
+        """.trimIndent()))
+    }
     val buySubscription = path.get.handler {
         webhookConfig.await()
         val user = it.user<User>()
@@ -99,8 +113,8 @@ class StripeEndpoints(path: ServerPath) : ServerPathGroup(path) {
             SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
                 .setCustomerEmail(user.email)
-                .setSuccessUrl(generalSettings().publicUrl)
-                .setCancelUrl(generalSettings().publicUrl)
+                .setSuccessUrl(landingSuccess.path.fullUrl())
+                .setCancelUrl(landingReturn.path.fullUrl())
                 .putMetadata("user", user._id.toString())
                 .addLineItem(
                     SessionCreateParams.LineItem.builder()
@@ -116,7 +130,7 @@ class StripeEndpoints(path: ServerPath) : ServerPathGroup(path) {
         val user = it.user<User>()
         user.customerId?.let {
             val session = com.stripe.model.billingportal.Session.create(com.stripe.param.billingportal.SessionCreateParams.builder()
-                .setReturnUrl(generalSettings().publicUrl)
+                .setReturnUrl(landingReturn.path.fullUrl())
                 .setCustomer(it)
                 .build())
             HttpResponse.redirectToGet(session.url)

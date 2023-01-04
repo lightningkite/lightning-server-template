@@ -35,7 +35,7 @@ class LogInEmailVG(
     @Unowned val root: ViewGeneratorStack,
     val server: ServerOption,
     //--- Extends
-) : ViewGenerator {
+) : ViewGenerator, HasBackAction {
 
     //--- Properties
     val email = ValueSubject("")
@@ -76,14 +76,20 @@ class LogInEmailVG(
                 }.map { Unit }.working(working).doOnError {
                     it.printStackTrace()
                     showDialog(ViewStringResource(R.string.generic_error))
-                }.onErrorReturnItem(Unit)
+                    pinEmail.value = "-"
+                }.onErrorReturnItem(Unit).doOnSuccess {
+                    xml.pin.requestFocus()
+                }
             } else {
                 if (email.value.matches(emailRegex)) {
                     server.api.auth.emailLoginLink(email.value)
                         .working(working).doOnSuccess {
                             pinEmail.value = email.value
                             showDialog(ViewStringResource(R.string.email_sent))
-                        }.doOnError { showDialog(ViewStringResource(R.string.generic_error)) }.onErrorReturnItem(Unit)
+                        }.doOnError {
+                            it.printStackTrace()
+                            showDialog(ViewStringResource(R.string.generic_error))
+                        }.onErrorReturnItem(Unit)
                 } else {
                     email.value = ""
                     showDialog(ViewStringResource(R.string.invalid_email_address))
@@ -96,6 +102,14 @@ class LogInEmailVG(
         //--- Generate End (overwritten on flow generation)
         
         return xml.root
+    }
+
+    override fun onBackPressed(): Boolean {
+        if(email.value == pinEmail.value) {
+            pinEmail.value = "-"
+            return true
+        }
+        return false
     }
     
     //--- Init

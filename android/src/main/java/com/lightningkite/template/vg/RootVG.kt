@@ -12,16 +12,21 @@ import android.view.View
 import android.widget.ImageButton
 import com.lightningkite.khrysalis.SharedCode
 import com.lightningkite.lightningdb.assign
+import com.lightningkite.lightningdb.condition
+import com.lightningkite.lightningdb.eq
 import com.lightningkite.lightningdb.modification
 import com.lightningkite.rx.ValueSubject
 import com.lightningkite.rx.android.into
 import com.lightningkite.rx.android.onClick
 import com.lightningkite.rx.android.resources.ViewStringResource
 import com.lightningkite.rx.android.visible
+import com.lightningkite.rx.kotlin
 import com.lightningkite.rx.viewgenerators.*
 import com.lightningkite.rx.viewgenerators.fcm.ForegroundNotificationHandler
 import com.lightningkite.rx.viewgenerators.fcm.ForegroundNotificationHandlerResult
+import com.lightningkite.rx.viewgenerators.fcm.Notifications
 import com.lightningkite.template.R
+import com.lightningkite.template._id
 import com.lightningkite.template.api.ServerOption
 import com.lightningkite.template.api.ServerOptions
 import com.lightningkite.template.databinding.RootBinding
@@ -29,6 +34,7 @@ import com.lightningkite.template.models.AnonymousSession
 import com.lightningkite.template.models.Session
 import com.lightningkite.template.models.UserSession
 import com.lightningkite.template.termsAgreed
+import com.lightningkite.template.user
 import com.lightningkite.template.utils.PreferenceKeys
 import com.lightningkite.template.utils.SecurePreferences
 import io.reactivex.rxjava3.core.Single
@@ -45,6 +51,10 @@ class RootVG(
         return ForegroundNotificationHandlerResult.ShowNotification
     }
 
+    override fun onBackPressed(): Boolean {
+        return dialog.backPressPop() || mainStack.backPressPop()
+    }
+
     companion object {
         lateinit var instance: RootVG
     }
@@ -59,7 +69,7 @@ class RootVG(
         println("$schema://$host$path?$params")
 
         val option = ServerOptions.availableServers.find {
-            it.api.httpUrl.contains(host)
+            it.api.httpUrl.contains(params["server"] ?: "*NEVER*", true)
         }
 
         params["jwt"]?.let { jwt ->
@@ -187,9 +197,9 @@ class RootVG(
 
     //--- Actions
 
-    //--- Action backButtonClick (overwritten on flow generation)
+    //--- Action backButtonClick
     fun backButtonClick() {
-        this.root.pop()
+        this.root.backPressPop()
     }
     
     
@@ -200,7 +210,13 @@ class RootVG(
         this.root.reset(LandingVG(root, root))
     }
 
-    fun logOut() {
+    fun logOut(session: Session) {
+        session.user?.let {
+            Notifications.notificationToken.value.kotlin?.let { token ->
+                it.fcmToken.bulkDelete(condition { it._id eq token })
+                    .subscribeBy(onError = {}, onSuccess = {})
+            }
+        }
         SecurePreferences.edit().clear().apply()
         loginAction()
     }

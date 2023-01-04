@@ -79,7 +79,7 @@ export class SettingsVG implements ViewGenerator, HasTitle {
     //--- Actions
     
     public logoutClick(): void {
-        RootVG.Companion.INSTANCE.instance.logOut();
+        RootVG.Companion.INSTANCE.instance.logOut(this.session);
     }
     
     

@@ -51,7 +51,7 @@ module.exports = {
     aggregateTimeout: 2000,
   },
   devServer: {
-    allowedHosts: ['jivie.lightningkite.com'],
+    allowedHosts: ['all'],
     static: {
       directory: './dist',
       publicPath: process.env.DEV_PUBLIC_PATH || '/',

@@ -93,7 +93,7 @@ class SettingsVG(
 
     //--- Action logoutClick
     fun logoutClick() {
-        RootVG.instance.logOut()
+        RootVG.instance.logOut(session)
     }
 
 
