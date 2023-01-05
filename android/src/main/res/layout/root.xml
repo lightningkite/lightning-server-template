@@ -5,7 +5,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:safeInsets="center"
         >
 
     <com.lightningkite.rx.viewgenerators.SwapView
@@ -17,18 +16,23 @@
             android:background="@color/background"
             />
 
-    <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_back"
-            android:contentDescription="@string/back"
-            android:background="?attr/selectableItemBackground"
-            android:layout_gravity="top|start"
-            tools:pop="true"
-            tools:onStack="root"
-            />
+    <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:safeInsets="center">
+        <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_back"
+                android:contentDescription="@string/back"
+                android:background="?attr/selectableItemBackground"
+                android:layout_gravity="top|start"
+                tools:pop="true"
+                tools:onStack="root"
+                />
+    </FrameLayout>
 
     <com.lightningkite.rx.viewgenerators.SwapView
             android:id="@+id/dialog"

@@ -9,12 +9,15 @@
         <item name="colorSecondary">@color/colorAccent</item>
         <item name="colorSecondaryVariant">@color/colorAccentDark</item>
         <item name="colorOnSecondary">@color/barForeground</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/colorPrimaryDark</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/background</item>
         <item name="android:fontFamily">@font/lato_light</item>
-<!--        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>-->
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <style name="AppThemeLoading" parent="AppTheme">

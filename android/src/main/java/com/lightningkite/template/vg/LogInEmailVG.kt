@@ -103,14 +103,6 @@ class LogInEmailVG(
         
         return xml.root
     }
-
-    override fun onBackPressed(): Boolean {
-        if(email.value == pinEmail.value) {
-            pinEmail.value = "-"
-            return true
-        }
-        return false
-    }
     
     //--- Init
     init {

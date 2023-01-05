@@ -1,0 +1,110 @@
+<document colorMatched="YES" propertyAccessControl="none" targetRuntime="iOS.CocoaTouch" toolsVersion="18122" type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" useAutolayout="YES" useSafeAreas="YES" useTraitCollections="YES" version="3.0">
+  <device appearance="light" id="retina6_1" orientation="portrait"></device>
+  <dependencies>
+    <deployment identifier="iOS"></deployment>
+    <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"></plugIn>
+    <capability minToolsVersion="9.0" name="Safe area layout guides"></capability>
+    <capability minToolsVersion="11.0" name="System colors in document resources"></capability>
+    <capability minToolsVersion="8.0" name="documents saved in the Xcode 8 format"></capability>
+  </dependencies>
+  <customFonts key="customFonts">
+    <array key="bebas_bold.ttf">
+      <string>BebasNeueBold</string>
+    </array>
+    <array key="lato_light.ttf">
+      <string>Lato-Light</string>
+    </array>
+    <array key="lato_bold.ttf">
+      <string>Lato-Bold</string>
+    </array>
+  </customFonts>
+  <objects>
+    <placeholder customClass="ComponentAppExplanationBinding" customModule="IosProject" customModuleProvider="target" id="-1" placeholderIdentifier="IBFilesOwner" userLabel="File's Owner">
+      <attributedString key="userComments">
+        <fragment content="Generated with XmlToXib, will be overwritten"></fragment>
+      </attributedString>
+      <connections>
+        <outlet destination="image" id="outletiue9Me" property="_image"></outlet>
+        <outlet destination="title" id="outletFF6EUm" property="_title"></outlet>
+        <outlet destination="content" id="outletA7f7Yh" property="_content"></outlet>
+        <outlet destination="button" id="outlet2tCJk5" property="_button"></outlet>
+      </connections>
+    </placeholder>
+    <placeholder customClass="UIResponder" id="-2" placeholderIdentifier="IBFirstResponder"></placeholder>
+    <stackView alignment="center" axis="vertical" contentMode="scaleToFill" id="stackViewoXTUo1" insetsLayoutMarginsFromSafeArea="NO" opaque="NO" spacing="16.0" translatesAutoresizingMaskIntoConstraints="NO">
+      <subviews>
+        <view id="view4HdzQI" translatesAutoresizingMaskIntoConstraints="NO" verticalHuggingPriority="100">
+          <constraints>
+            <constraint constant="1.0" firstAttribute="width" id="constraintaHjNZb" multiplier="1.0" priority="1000" relation="equal"></constraint>
+          </constraints>
+        </view>
+        <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" id="image" image="logo" translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" verticalHuggingPriority="251">
+          <constraints>
+            <constraint constant="200.0" firstAttribute="width" id="constraint4bDv7k" multiplier="1.0" priority="1000" relation="equal"></constraint>
+            <constraint constant="200.0" firstAttribute="height" id="constraintJarDsF" multiplier="1.0" priority="1000" relation="equal"></constraint>
+          </constraints>
+        </imageView>
+        <label adjustsFontSizeToFit="NO" baselineAdjustment="alignBaselines" contentMode="left" customClass="StyledUILabel" customModule="XmlToXibRuntime" horizontalCompressionResistancePriority="1000" horizontalHuggingPriority="1000" id="title" lineBreakMode="tailTruncation" opaque="NO" text="Example Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" verticalCompressionResistancePriority="1000" verticalHuggingPriority="1000">
+          <fontDescription family="Bebas Neue" key="fontDescription" name="BebasNeueBold" pointSize="24.0"></fontDescription>
+          <nil key="highlightedColor"></nil>
+          <color key="textColor" name="color_foreground"></color>
+          <userDefinedRuntimeAttributes>
+            <userDefinedRuntimeAttribute keyPath="textAllCaps" type="boolean" value="YES"></userDefinedRuntimeAttribute>
+          </userDefinedRuntimeAttributes>
+        </label><label adjustsFontSizeToFit="NO" baselineAdjustment="alignBaselines" contentMode="left" horizontalCompressionResistancePriority="1000" horizontalHuggingPriority="1000" id="content" lineBreakMode="tailTruncation" opaque="NO" text="Here is a text explanation" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" verticalCompressionResistancePriority="1000" verticalHuggingPriority="1000">
+          <fontDescription family="Lato" key="fontDescription" name="Lato-Light" pointSize="16.0"></fontDescription>
+          <nil key="highlightedColor"></nil>
+          <color key="textColor" name="color_foreground"></color>
+        </label><button contentHorizontalAlignment="center" contentMode="scaleToFill" contentVerticalAlignment="center" customClass="StyledUIButton" customModule="XmlToXibRuntime" horizontalCompressionResistancePriority="1000" horizontalHuggingPriority="1000" id="button" lineBreakMode="wordWrap" opaque="NO" translatesAutoresizingMaskIntoConstraints="NO" verticalCompressionResistancePriority="1000" verticalHuggingPriority="1000">
+          <fontDescription family="" key="fontDescription" name="Lato-Bold" pointSize="20.0"></fontDescription>
+          <constraints constraints="constraints">
+            <constraint constant="48.0" firstAttribute="height" id="constraintbM2hFy" relation="greaterThanOrEqual"></constraint>
+          </constraints>
+          <inset key="contentEdgeInsets" maxX="16" maxY="16" minX="16" minY="16"></inset>
+          <userDefinedRuntimeAttributes>
+            <userDefinedRuntimeAttribute keyPath="textAllCaps" type="boolean" value="YES"></userDefinedRuntimeAttribute>
+            <userDefinedRuntimeAttribute keyPath="backgroundLayerName" type="string" value="button_background"></userDefinedRuntimeAttribute>
+            <userDefinedRuntimeAttribute keyPath="layer.shadowOpacity" type="number">
+              <real key="value" value="0.2"></real>
+            </userDefinedRuntimeAttribute>
+            <userDefinedRuntimeAttribute keyPath="layer.shadowOffset" type="size">
+              <size height="4.0" key="value" width="0"></size>
+            </userDefinedRuntimeAttribute>
+            <userDefinedRuntimeAttribute keyPath="layer.shadowColorIB" type="color">
+              <color alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace" key="value" white="0.5"></color>
+            </userDefinedRuntimeAttribute>
+          </userDefinedRuntimeAttributes>
+          <state key="normal" title="Let's go!">
+            <color key="titleColor" name="color_barForeground"></color>
+          </state>
+        </button>
+        <view id="viewG2ljQB" translatesAutoresizingMaskIntoConstraints="NO" verticalHuggingPriority="100">
+          <constraints>
+            <constraint constant="1.0" firstAttribute="width" id="constraintmBtFLF" multiplier="1.0" priority="1000" relation="equal"></constraint>
+          </constraints>
+        </view>
+      </subviews>
+      <constraints>
+        <constraint constant="32.0" firstAttribute="width" id="constraintdhGhM8" identifier="constraintMatchParent-width-end" multiplier="1.0" priority="1000" relation="greaterThanOrEqual" secondAttribute="width" secondItem="image"></constraint>
+        <constraint constant="32.0" firstAttribute="width" id="constraintyr3VN4" identifier="constraintMatchParent-width-end" multiplier="1.0" priority="300" relation="equal" secondAttribute="width" secondItem="image"></constraint>
+        <constraint constant="32.0" firstAttribute="width" id="constraintIQCF4O" identifier="constraintMatchParent-width-end" multiplier="1.0" priority="1000" relation="greaterThanOrEqual" secondAttribute="width" secondItem="title"></constraint>
+        <constraint constant="32.0" firstAttribute="width" id="constraintXtEnmN" identifier="constraintMatchParent-width-end" multiplier="1.0" priority="300" relation="equal" secondAttribute="width" secondItem="title"></constraint>
+        <constraint constant="32.0" firstAttribute="width" id="constraintUKN70K" identifier="constraintMatchParent-width-end" multiplier="1.0" priority="1000" relation="greaterThanOrEqual" secondAttribute="width" secondItem="content"></constraint>
+        <constraint constant="32.0" firstAttribute="width" id="constraintF5B0rZ" identifier="constraintMatchParent-width-end" multiplier="1.0" priority="300" relation="equal" secondAttribute="width" secondItem="content"></constraint>
+        <constraint constant="32.0" firstAttribute="width" id="constraintIxs5YR" identifier="constraintMatchParent-width-end" multiplier="1.0" priority="1000" relation="greaterThanOrEqual" secondAttribute="width" secondItem="button"></constraint>
+        <constraint constant="32.0" firstAttribute="width" id="constraintVuToXF" identifier="constraintMatchParent-width-end" multiplier="1.0" priority="300" relation="equal" secondAttribute="width" secondItem="button"></constraint>
+        <constraint constant="0.0" firstAttribute="height" firstItem="view4HdzQI" id="constrainteBoe8K" multiplier="1.0" priority="1000" relation="equal" secondAttribute="height" secondItem="viewG2ljQB"></constraint>
+      </constraints>
+      <edgeInsets bottom="16.0" key="layoutMargins" left="16.0" right="16.0" top="16.0"></edgeInsets>
+    </stackView>
+  </objects>
+  <resources>
+    <image height="128" name="logo" width="128"></image>
+    <namedColor name="color_foreground">
+      <color alpha="1.0" blue="1.0" colorSpace="custom" customColorSpace="sRGB" green="1.0" red="1.0"></color>
+    </namedColor>
+    <namedColor name="color_barForeground">
+      <color alpha="1.0" blue="1.0" colorSpace="custom" customColorSpace="sRGB" green="1.0" red="1.0"></color>
+    </namedColor>
+  </resources>
+</document>

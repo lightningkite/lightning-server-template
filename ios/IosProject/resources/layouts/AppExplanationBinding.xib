@@ -1,0 +1,42 @@
+<document colorMatched="YES" propertyAccessControl="none" targetRuntime="iOS.CocoaTouch" toolsVersion="18122" type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" useAutolayout="YES" useSafeAreas="YES" useTraitCollections="YES" version="3.0">
+  <device appearance="light" id="retina6_1" orientation="portrait"></device>
+  <dependencies>
+    <deployment identifier="iOS"></deployment>
+    <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"></plugIn>
+    <capability minToolsVersion="9.0" name="Safe area layout guides"></capability>
+    <capability minToolsVersion="11.0" name="System colors in document resources"></capability>
+    <capability minToolsVersion="8.0" name="documents saved in the Xcode 8 format"></capability>
+  </dependencies>
+  <customFonts key="customFonts"></customFonts>
+  <objects>
+    <placeholder customClass="AppExplanationBinding" customModule="IosProject" customModuleProvider="target" id="-1" placeholderIdentifier="IBFilesOwner" userLabel="File's Owner">
+      <attributedString key="userComments">
+        <fragment content="Generated with XmlToXib, will be overwritten"></fragment>
+      </attributedString>
+      <connections>
+        <outlet destination="explanation" id="outletiue9Me" property="_explanation"></outlet>
+      </connections>
+    </placeholder>
+    <placeholder customClass="UIResponder" id="-2" placeholderIdentifier="IBFirstResponder"></placeholder>
+    <view clipsSubviews="YES" contentMode="scaleToFill" id="viewoXTUo1" translatesAutoresizingMaskIntoConstraints="NO">
+      <subviews>
+        <collectionView clipsSubviews="YES" contentMode="scaleToFill" dataMode="none" id="explanation" multipleTouchEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO">
+          <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10">
+            <size height="128" key="itemSize" width="128"></size>
+            <size height="0.0" key="headerReferenceSize" width="0.0"></size>
+            <size height="0.0" key="footerReferenceSize" width="0.0"></size>
+            <inset key="sectionInset" maxX="0.0" maxY="0.0" minX="0.0" minY="0.0"></inset>
+          </collectionViewFlowLayout>
+          <color alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace" key="backgroundColor" white="0.0"></color>
+        </collectionView>
+      </subviews>
+      <constraints>
+        <constraint constant="0.0" firstAttribute="top" firstItem="explanation" id="constraintdHIOZ8" identifier="constraintMatchParent-top-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="top" secondItem="viewoXTUo1"></constraint>
+        <constraint constant="0.0" firstAttribute="bottom" id="constraintpYT5Tv" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="bottom" secondItem="explanation"></constraint>
+        <constraint constant="0.0" firstAttribute="leading" firstItem="explanation" id="constraint3TVjAE" identifier="constraintMatchParent-leading-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="leading" secondItem="viewoXTUo1"></constraint>
+        <constraint constant="0.0" firstAttribute="trailing" id="constraintE0HH5e" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="trailing" secondItem="explanation"></constraint>
+      </constraints>
+    </view>
+  </objects>
+  <resources></resources>
+</document>

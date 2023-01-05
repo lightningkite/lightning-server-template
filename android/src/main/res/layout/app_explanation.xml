@@ -6,6 +6,8 @@
              android:orientation="vertical"
              android:transitionGroup="true"
              tools:goTo="@layout/log_in"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             app:safeInsets="all"
         >
 
     <androidx.viewpager2.widget.ViewPager2

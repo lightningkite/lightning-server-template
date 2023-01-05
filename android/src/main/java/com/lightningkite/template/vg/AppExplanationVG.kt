@@ -34,6 +34,7 @@ class AppExplanationVG(
 ) : ViewGenerator {
 
     //--- Properties
+    val showIndex = ValueSubject(0)
     class Explanation(
         val title: String,
         val image: Image,
@@ -75,7 +76,7 @@ class AppExplanationVG(
         
         //--- Set Up xml.explanation
         Observable.just(explanations)
-            .showIn(xml.explanation) label@ { obs ->
+            .showIn(xml.explanation, showIndex) label@ { obs ->
         
             //--- Make Subview For xml.explanation (overwritten on flow generation)
             val cellXml = ComponentAppExplanationBinding.inflate(dependency.layoutInflater)
@@ -91,7 +92,7 @@ class AppExplanationVG(
             
             //--- Set Up cellXml.button
                 obs.map {it.buttonTitle != null }.into(cellXml.button, View::exists)
-                obs.map {it.buttonTitle ?: ""}.into(cellXml.button, TextView::setText)
+                obs.map {it.buttonTitle ?: ""}.into(cellXml.button, Button::setText)
                 cellXml.button.clicks().flatMapSingle { obs.firstOrError() }.into(cellXml.root) {
                     it.button()
                 }

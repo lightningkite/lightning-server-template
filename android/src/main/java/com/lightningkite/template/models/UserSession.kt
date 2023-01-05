@@ -17,7 +17,7 @@ class UserSession(
 ) : AbstractUserSession(api, userToken) {
 }
 
-data class Session(
+class Session(
     val anon: AnonymousSession,
     val user: UserSession? = null,
 ) {

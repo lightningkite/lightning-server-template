@@ -14,3 +14,6 @@ local.tf
 web/dist
 
 demo/terraform/bssoftware
+ios/Pods
+ios/IosProject.xcodeproj/xcuserdata
+ios/IosProject.xcworkspace/xcuserdata

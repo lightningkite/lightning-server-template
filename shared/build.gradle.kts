@@ -46,7 +46,7 @@ ksp {
 
 khrysalis {
     iosProjectFolder = rootDir.resolve("ios")
-    iosSourceFolder = rootDir.resolve("ios/Ios/shared")
+    iosSourceFolder = rootDir.resolve("ios/IosProject/shared")
 
     webProjectFolder = rootDir.resolve("web")
     webSourceFolder = rootDir.resolve("web/src/shared")

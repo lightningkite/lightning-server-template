@@ -79,7 +79,7 @@ class RootVG(
             } else {
                 login(option, jwt)
                     .doOnSubscribe { dialog.reset(LoadingDialogVG()) }
-                    .doOnTerminate { dialog.value = listOf() }
+                    .doFinally { dialog.value = listOf() }
                     .subscribeBy(
                         onError = { showDialog(ViewStringResource(R.string.deep_link_was_invalid_credentials)) },
                         onSuccess = { },
@@ -173,7 +173,7 @@ class RootVG(
         if (option != null && jwt != null) {
             login(option, jwt)
                 .doOnSubscribe { dialog.reset(LoadingDialogVG()) }
-                .doOnTerminate { dialog.value = listOf() }
+                .doFinally { dialog.value = listOf() }
                 .subscribeBy(
                     onError = {
                         it.printStackTrace()

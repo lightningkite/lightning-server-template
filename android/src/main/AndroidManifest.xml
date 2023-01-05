@@ -58,7 +58,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="https" android:host="74d2-75-148-99-49.ngrok.io" />
+                <data android:scheme="https" android:host="template.cs.lightningkite.com" />
 
             </intent-filter>
 

@@ -24,6 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/spacing2"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:safeInsets="all"
             android:orientation="vertical">
         <ImageView
                 android:layout_width="match_parent"

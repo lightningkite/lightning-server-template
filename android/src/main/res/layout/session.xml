@@ -4,8 +4,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         tools:requires="session: Session"
+        app:safeInsets="all"
         >
 
     <LinearLayout
@@ -59,27 +61,15 @@
 
         <ToggleButton
                 style="@style/ButtonTab"
-                android:id="@+id/mainTab"
+                android:id="@+id/homeTab"
                 android:drawableTop="@drawable/ic_home"
-                android:text="Main"
-                android:textOn="Main"
-                android:textOff="Main"
+                android:text="@string/home"
+                android:textOn="@string/home"
+                android:textOff="@string/home"
                 android:checked="true"
                 android:background="@drawable/button_toggle"
                 android:layout_gravity="bottom|start"
-                tools:reset="@layout/settings"
-                tools:onStack="sessionStack"
-                />
-        <ToggleButton
-                style="@style/ButtonTab"
-                android:id="@+id/altTab"
-                android:drawableTop="@drawable/ic_filter"
-                android:text="Alt"
-                android:textOn="Alt"
-                android:textOff="Alt"
-                android:background="@drawable/button_toggle"
-                android:layout_gravity="bottom|start"
-                tools:reset="@layout/settings"
+                tools:reset="@layout/home"
                 tools:onStack="sessionStack"
                 />
         <ToggleButton

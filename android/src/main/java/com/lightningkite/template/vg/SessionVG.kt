@@ -20,6 +20,7 @@ import com.lightningkite.rx.android.resources.*
 import com.lightningkite.rx.kotlin
 import com.lightningkite.rx.viewgenerators.*
 import com.lightningkite.rx.viewgenerators.fcm.Notifications
+import com.lightningkite.rx.withWrite
 import com.lightningkite.template.FcmToken
 import com.lightningkite.template.R
 import com.lightningkite.template.databinding.SessionBinding
@@ -54,7 +55,7 @@ class SessionVG(
                 it.kotlin?.let {
                     userSession.auth.getSelf().flatMap { user ->
                         userSession.fcmToken.upsert(it, FcmToken(_id = it, user = user._id))
-                    }
+                    }.map { Unit }
                 } ?: Single.just(Unit)
             }.subscribeBy(
                 onError = { it.printStackTrace() }
@@ -82,17 +83,15 @@ class SessionVG(
         //--- Set Up xml.session (overwritten on flow generation)
         sessionStack.showIn(xml.session, dependency)
         
-        //--- Set Up xml.mainTab
-        sessionStack.map { it.first() is SettingsVG }.into(xml.mainTab, ToggleButton::setChecked)
-        xml.mainTab.onClick { this.mainTabClick() }
-        
-        //--- Set Up xml.altTab
-        sessionStack.map { it.first() is SettingsVG }.into(xml.altTab, ToggleButton::setChecked)
-        xml.altTab.onClick { this.altTabClick() }
+        //--- Set Up xml.homeTab
+        sessionStack.map { it.first() is HomeVG }
+            .withWrite { if(it) homeTabClick() }
+            .bind(xml.homeTab)
         
         //--- Set Up xml.settingsTab
-        sessionStack.map { it.first() is SettingsVG }.into(xml.settingsTab, ToggleButton::setChecked)
-        xml.settingsTab.onClick { this.settingsTabClick() }
+        sessionStack.map { it.first() is SettingsVG }
+            .withWrite { if(it) settingsTabClick() }
+            .bind(xml.settingsTab)
         
         //--- Generate End (overwritten on flow generation)
         
@@ -101,7 +100,7 @@ class SessionVG(
     
     //--- Init
     init {
-        mainTabClick()
+        homeTabClick()
         //--- Init End
     }
 
@@ -112,14 +111,9 @@ class SessionVG(
         sessionStack.backPressPop()
     }
 
-    //--- Action mainTabClick (overwritten on flow generation)
-    fun mainTabClick() {
-        this.sessionStack.reset(SettingsVG(root = this.root, session = this.session))
-    }
-    
-    //--- Action altTabClick (overwritten on flow generation)
-    fun altTabClick() {
-        this.sessionStack.reset(SettingsVG(root = this.root, session = this.session))
+    //--- Action homeTabClick (overwritten on flow generation)
+    fun homeTabClick() {
+        this.sessionStack.reset(HomeVG())
     }
     
     //--- Action settingsTabClick (overwritten on flow generation)

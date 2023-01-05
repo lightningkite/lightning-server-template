@@ -94,14 +94,14 @@ configure<PrototyperPluginExtension> {
 
 khrysalis {
     iosProjectFolder = rootDir.resolve("ios")
-    iosSourceFolder = rootDir.resolve("ios/Ios/src")
+    iosSourceFolder = rootDir.resolve("ios/IosProject/src")
 
     webProjectFolder = rootDir.resolve("web")
     webSourceFolder = rootDir.resolve("web/src/app")
 }
 
 androidLayoutConverter {
-    iosProjectName = "Ios"
+    iosProjectName = "IosProject"
     iosFolder = rootDir.resolve("ios")
 
     webProjectName = rootProject.name
