@@ -43,20 +43,20 @@ $transparentBack: #88888888;
 :focus ~ * {
 }
 .drawable-button_accent {
-background-image: linear-gradient(-135.0deg, #{$colorAccent}, #{$colorAccentDark});
+background-image: linear-gradient(-90.0deg, #{$colorAccent}, #{$colorAccentDark});
 border-top-left-radius: 8.0px;
 border-top-right-radius: 8.0px;
 border-bottom-left-radius: 8.0px;
 border-bottom-right-radius: 8.0px;
 &:active:hover {
-background-image: linear-gradient(-135.0deg, #{$colorAccent}, #{$colorAccentDark});
+background-image: linear-gradient(135.0deg, #{$colorAccent}, #{$colorAccentDark});
 border-top-left-radius: 8.0px;
 border-top-right-radius: 8.0px;
 border-bottom-left-radius: 8.0px;
 border-bottom-right-radius: 8.0px;
 }
 &:disabled, :disabled>& {
-background-image: linear-gradient(-135.0deg, #{$colorAccent}, #{$colorAccentDark});
+background-image: linear-gradient(135.0deg, #{$colorAccent}, #{$colorAccentDark});
 border-top-left-radius: 8.0px;
 border-top-right-radius: 8.0px;
 border-bottom-left-radius: 8.0px;
@@ -65,20 +65,20 @@ border-bottom-right-radius: 8.0px;
 }
 .compound-button_accent::after { @extend .drawable-button_accent; }
 .drawable-button_background {
-background-image: linear-gradient(-135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
+background-image: linear-gradient(135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
 border-top-left-radius: 8.0px;
 border-top-right-radius: 8.0px;
 border-bottom-left-radius: 8.0px;
 border-bottom-right-radius: 8.0px;
 &:active:hover {
-background-image: linear-gradient(-135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
+background-image: linear-gradient(135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
 border-top-left-radius: 8.0px;
 border-top-right-radius: 8.0px;
 border-bottom-left-radius: 8.0px;
 border-bottom-right-radius: 8.0px;
 }
 &:disabled, :disabled>& {
-background-image: linear-gradient(-135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
+background-image: linear-gradient(135.0deg, #{$colorPrimary}, #{$colorPrimaryDark});
 border-top-left-radius: 8.0px;
 border-top-right-radius: 8.0px;
 border-bottom-left-radius: 8.0px;

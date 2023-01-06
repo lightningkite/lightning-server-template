@@ -6,7 +6,7 @@ import { ServerOption } from '../api/ServerOptions'
 import { RootVG } from './RootVG'
 import { printStackTrace, xCharSequenceIsBlank } from '@lightningkite/khrysalis-runtime'
 import { EmailPinLogin } from '@lightningkite/lightning-server'
-import { HasBackAction, ViewGenerator, ViewGeneratorStack, bind, hasClass, setOnWhileActive, showDialog, subscribeAutoDispose, viewExists } from '@lightningkite/rxjs-plus'
+import { HasBackAction, HasBackActionDefaults, ViewGenerator, ViewGeneratorStack, bind, hasClass, setOnWhileActive, showDialog, subscribeAutoDispose, viewExists } from '@lightningkite/rxjs-plus'
 import { BehaviorSubject, Observable, combineLatest, fromEvent, merge, of } from 'rxjs'
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators'
 
@@ -86,14 +86,6 @@ export class LogInEmailVG implements ViewGenerator, HasBackAction {
         return xml.root;
     }
     
-    public onBackPressed(): boolean {
-        if (this.email.value === this.pinEmail.value) {
-            this.pinEmail.next("-");
-            return true;
-        }
-        return false;
-    }
-    
     
     
     //--- Actions
@@ -102,4 +94,5 @@ export class LogInEmailVG implements ViewGenerator, HasBackAction {
     
     
     //--- Body End
+    public onBackPressed(): boolean { return HasBackActionDefaults.onBackPressed(this); }
 }

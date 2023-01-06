@@ -86,12 +86,12 @@ class SessionVG(
         //--- Set Up xml.homeTab
         sessionStack.map { it.first() is HomeVG }
             .withWrite { if(it) homeTabClick() }
-            .bind(xml.homeTab)
+            .bindNoUncheck(xml.homeTab)
         
         //--- Set Up xml.settingsTab
         sessionStack.map { it.first() is SettingsVG }
             .withWrite { if(it) settingsTabClick() }
-            .bind(xml.settingsTab)
+            .bindNoUncheck(xml.settingsTab)
         
         //--- Generate End (overwritten on flow generation)
         

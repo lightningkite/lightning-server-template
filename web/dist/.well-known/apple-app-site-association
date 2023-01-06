@@ -1,12 +1,15 @@
 {
   "applinks": {
+    "apps": [],
     "details": [
       {
-        "appIDs": ["com.lightningkite.template"],
+        "appID": "69W23NFK65.com.lightningkite.template",
+        "paths": [ "*" ]
+        "appIDs": ["69W23NFK65.com.lightningkite.template"],
         "components": [
           {
-             "/": "/*",
-             "comment": "Matches any URL with a path to this domain."
+             "/": "*",
+             "comment": "Matches all"
           }
         ]
       }

@@ -94,11 +94,12 @@
               <edgeInsets bottom="0.0" key="layoutMargins" left="0.0" right="0.0" top="0.0"></edgeInsets>
             </stackView>
           </subviews>
+          <viewLayoutGuide id="viewDaXoMaSafeAreaGuide" key="safeArea"></viewLayoutGuide>
           <constraints>
-            <constraint constant="0.0" firstAttribute="top" firstItem="titleBar" id="constraint2TxgbI" identifier="constraintMatchParent-top-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="top" secondItem="viewDaXoMa"></constraint>
-            <constraint constant="0.0" firstAttribute="bottom" id="constraintBo1EQ9" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="bottom" secondItem="titleBar"></constraint>
-            <constraint constant="0.0" firstAttribute="leading" firstItem="titleBar" id="constraintV5ySPB" identifier="constraintMatchParent-leading-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="leading" secondItem="viewDaXoMa"></constraint>
-            <constraint constant="0.0" firstAttribute="trailing" id="constraintpmnZLc" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="trailing" secondItem="titleBar"></constraint>
+            <constraint constant="0.0" firstAttribute="top" firstItem="titleBar" id="constraint2hQLSj" identifier="constraintMatchParent-top-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="top" secondItem="viewDaXoMaSafeAreaGuide"></constraint>
+            <constraint constant="0.0" firstAttribute="bottom" id="constraintnNIUIl" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="bottom" secondItem="titleBar"></constraint>
+            <constraint constant="0.0" firstAttribute="leading" firstItem="titleBar" id="constraintwqGtDo" identifier="constraintMatchParent-leading-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="leading" secondItem="viewDaXoMa"></constraint>
+            <constraint constant="0.0" firstAttribute="trailing" id="constraintA92RpU" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="trailing" secondItem="titleBar"></constraint>
           </constraints>
           <color key="backgroundColor" name="color_colorPrimary"></color>
         </view>
@@ -210,10 +211,11 @@
           </subviews>
           <constraints>
             <constraint constant="0.0" firstAttribute="top" firstItem="stackView09qE57" id="constraintFz9our" identifier="constraintMatchParent-top-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="top" secondItem="viewIsmnLJ"></constraint>
-            <constraint constant="0.0" firstAttribute="bottom" id="constraintfnzyNH" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="bottom" secondItem="stackView09qE57"></constraint>
+            <constraint constant="0.0" firstAttribute="bottom" firstItem="viewIsmnLJSafeAreaGuide" id="constraintfnzyNH" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="bottom" secondItem="stackView09qE57"></constraint>
             <constraint constant="0.0" firstAttribute="leading" firstItem="stackView09qE57" id="constraintOOTA73" identifier="constraintMatchParent-leading-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="leading" secondItem="viewIsmnLJ"></constraint>
             <constraint constant="0.0" firstAttribute="trailing" id="constraintBmrw22" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="trailing" secondItem="stackView09qE57"></constraint>
           </constraints>
+          <viewLayoutGuide id="viewIsmnLJSafeAreaGuide" key="safeArea"></viewLayoutGuide>
           <color key="backgroundColor" name="color_colorPrimary"></color>
         </view>
       </subviews>

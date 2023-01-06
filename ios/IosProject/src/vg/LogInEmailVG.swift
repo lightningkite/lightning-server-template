@@ -20,7 +20,7 @@ public final class LogInEmailVG : ViewGenerator, HasBackAction {
         self.working = ValueSubject(false)
         self.emailRegex = (try! NSRegularExpression(pattern: """
             [a-zA-Z0-9._+-]+@[a-z]+\\.+[a-z]+
-        """, options: []))
+        """.trimmingCharacters(in: .whitespaces), options: []))
         //Necessary properties should be initialized now
     }
     

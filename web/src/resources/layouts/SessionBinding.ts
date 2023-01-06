@@ -9,8 +9,7 @@ export interface SessionBinding {
     titleBar: HTMLDivElement
     session: HTMLDivElement
     backButton: HTMLButtonElement & {image: HTMLImageElement}
-    mainTab: HTMLLabelElement & {input: HTMLInputElement, label: HTMLSpanElement}
-    altTab: HTMLLabelElement & {input: HTMLInputElement, label: HTMLSpanElement}
+    homeTab: HTMLLabelElement & {input: HTMLInputElement, label: HTMLSpanElement}
     settingsTab: HTMLLabelElement & {input: HTMLInputElement, label: HTMLSpanElement}
     
 }
@@ -22,6 +21,6 @@ export namespace SessionBinding {
     tallerThan: undefined
 }]
    export function inflate(): SessionBinding {
-       return inflateHtmlFile(variants, ["title", "titleBar", "session"], {backButton: ["image"], mainTab: ["input", "label"], altTab: ["input", "label"], settingsTab: ["input", "label"]}, {}) as SessionBinding
+       return inflateHtmlFile(variants, ["title", "titleBar", "session"], {backButton: ["image"], homeTab: ["input", "label"], settingsTab: ["input", "label"]}, {}) as SessionBinding
    }
 }

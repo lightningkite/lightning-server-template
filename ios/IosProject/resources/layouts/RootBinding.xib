@@ -1,95 +1,81 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
-    <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-    </dependencies>
-    <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RootBinding" customModule="IosProject" customModuleProvider="target">
-            <attributedString key="userComments">
-                <fragment content="Generated with XmlToXib, will be overwritten"/>
-            </attributedString>
-            <connections>
-                <outlet property="_backButton" destination="backButton" id="outletFF6EUm"/>
-                <outlet property="_content" destination="content" id="outletiue9Me"/>
-                <outlet property="_dialog" destination="dialog" id="outletA7f7Yh"/>
-            </connections>
-        </placeholder>
-        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viewoXTUo1">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-            <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="content" customClass="SwapView" customModule="RxSwiftPlus">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                    <color key="backgroundColor" name="color_background"/>
-                </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viewtQRFWz">
-                    <rect key="frame" x="0.0" y="0.0" width="58" height="106"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="backButton">
-                            <rect key="frame" x="8" y="56" width="42" height="42"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="42" id="constraintFlgySD"/>
-                                <constraint firstAttribute="height" constant="42" id="constraintv6dLKy"/>
-                            </constraints>
-                            <state key="normal" image="ic_back"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="imageView.contentMode">
-                                    <integer key="value" value="4"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </button>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="viewtQRFWzSafeAreaGuide"/>
-                    <constraints>
-                        <constraint firstItem="viewtQRFWzSafeAreaGuide" firstAttribute="bottom" secondItem="backButton" secondAttribute="bottom" priority="997" constant="8" identifier="constraintMatchParent-bottom-end" id="constraintG8792q"/>
-                        <constraint firstItem="viewtQRFWzSafeAreaGuide" firstAttribute="trailing" secondItem="backButton" secondAttribute="trailing" priority="997" constant="8" identifier="constraintMatchParent-trailing-end" id="constraintOI3GyM"/>
-                        <constraint firstItem="viewtQRFWzSafeAreaGuide" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="backButton" secondAttribute="trailing" priority="998" constant="8" identifier="constraintMatchParent-trailing-end" id="constraintSBNc01"/>
-                        <constraint firstItem="backButton" firstAttribute="top" secondItem="viewtQRFWzSafeAreaGuide" secondAttribute="top" constant="8" identifier="constraintMatchParent-top-start" id="constrainthFvi9D"/>
-                        <constraint firstItem="backButton" firstAttribute="leading" secondItem="viewtQRFWzSafeAreaGuide" secondAttribute="leading" constant="8" identifier="constraintMatchParent-leading-start" id="constraintpdT2ca"/>
-                        <constraint firstItem="viewtQRFWzSafeAreaGuide" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="backButton" secondAttribute="bottom" priority="998" constant="8" identifier="constraintMatchParent-bottom-end" id="constraintxWmNu0"/>
-                    </constraints>
-                </view>
-                <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="dialog" customClass="SwapView" customModule="RxSwiftPlus">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                    <color key="backgroundColor" name="color_background"/>
-                </view>
-            </subviews>
-            <constraints>
-                <constraint firstAttribute="bottom" secondItem="dialog" secondAttribute="bottom" identifier="constraintMatchParent-bottom-end" id="constraint1hm1j4"/>
-                <constraint firstItem="content" firstAttribute="leading" secondItem="viewoXTUo1" secondAttribute="leading" identifier="constraintMatchParent-leading-start" id="constraint3TVjAE"/>
-                <constraint firstItem="dialog" firstAttribute="leading" secondItem="viewoXTUo1" secondAttribute="leading" identifier="constraintMatchParent-leading-start" id="constraint5XSUbB"/>
-                <constraint firstAttribute="trailing" secondItem="dialog" secondAttribute="trailing" identifier="constraintMatchParent-trailing-end" id="constraintD26Sni"/>
-                <constraint firstAttribute="trailing" secondItem="content" secondAttribute="trailing" identifier="constraintMatchParent-trailing-end" id="constraintE0HH5e"/>
-                <constraint firstAttribute="bottom" secondItem="viewtQRFWz" secondAttribute="bottom" priority="300" identifier="constraintMatchParent-bottom-end" id="constraintKullrZ"/>
-                <constraint firstItem="content" firstAttribute="top" secondItem="viewoXTUo1" secondAttribute="top" identifier="constraintMatchParent-top-start" id="constraintdHIOZ8"/>
-                <constraint firstItem="viewtQRFWz" firstAttribute="leading" secondItem="viewoXTUo1" secondAttribute="leading" identifier="constraintMatchParent-leading-start" id="constraintdtBCdm"/>
-                <constraint firstItem="dialog" firstAttribute="top" secondItem="viewoXTUo1" secondAttribute="top" identifier="constraintMatchParent-top-start" id="constraintepUd7L"/>
-                <constraint firstAttribute="trailing" secondItem="viewtQRFWz" secondAttribute="trailing" priority="300" identifier="constraintMatchParent-trailing-end" id="constraintl4dHke"/>
-                <constraint firstItem="viewtQRFWz" firstAttribute="top" secondItem="viewoXTUo1" secondAttribute="top" identifier="constraintMatchParent-top-start" id="constraintobzxx1"/>
-                <constraint firstAttribute="bottom" secondItem="content" secondAttribute="bottom" identifier="constraintMatchParent-bottom-end" id="constraintpYT5Tv"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="viewtQRFWz" secondAttribute="bottom" identifier="constraintMatchParent-bottom-end" id="constraintsMEiFp"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="viewtQRFWz" secondAttribute="trailing" identifier="constraintMatchParent-trailing-end" id="constraintyjmaTX"/>
-            </constraints>
-            <point key="canvasLocation" x="16" y="21"/>
+<document colorMatched="YES" propertyAccessControl="none" targetRuntime="iOS.CocoaTouch" toolsVersion="18122" type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" useAutolayout="YES" useSafeAreas="YES" useTraitCollections="YES" version="3.0">
+  <device appearance="light" id="retina6_1" orientation="portrait"></device>
+  <dependencies>
+    <deployment identifier="iOS"></deployment>
+    <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"></plugIn>
+    <capability minToolsVersion="9.0" name="Safe area layout guides"></capability>
+    <capability minToolsVersion="11.0" name="System colors in document resources"></capability>
+    <capability minToolsVersion="8.0" name="documents saved in the Xcode 8 format"></capability>
+  </dependencies>
+  <customFonts key="customFonts"></customFonts>
+  <objects>
+    <placeholder customClass="RootBinding" customModule="IosProject" customModuleProvider="target" id="-1" placeholderIdentifier="IBFilesOwner" userLabel="File's Owner">
+      <attributedString key="userComments">
+        <fragment content="Generated with XmlToXib, will be overwritten"></fragment>
+      </attributedString>
+      <connections>
+        <outlet destination="content" id="outletiue9Me" property="_content"></outlet>
+        <outlet destination="backButton" id="outletFF6EUm" property="_backButton"></outlet>
+        <outlet destination="dialog" id="outletA7f7Yh" property="_dialog"></outlet>
+      </connections>
+    </placeholder>
+    <placeholder customClass="UIResponder" id="-2" placeholderIdentifier="IBFirstResponder"></placeholder>
+    <view clipsSubviews="YES" contentMode="scaleToFill" id="viewoXTUo1" translatesAutoresizingMaskIntoConstraints="NO">
+      <subviews>
+        <view clipsSubviews="YES" contentMode="scaleToFill" customClass="SwapView" customModule="RxSwiftPlus" id="content" placeholderIntrinsicHeight="50" placeholderIntrinsicWidth="50" translatesAutoresizingMaskIntoConstraints="NO">
+          <color key="backgroundColor" name="color_background"></color>
         </view>
-    </objects>
-    <designables>
-        <designable name="content">
-            <size key="intrinsicContentSize" width="50" height="50"/>
-        </designable>
-        <designable name="dialog">
-            <size key="intrinsicContentSize" width="50" height="50"/>
-        </designable>
-    </designables>
-    <resources>
-        <image name="ic_back" width="24" height="24"/>
-        <namedColor name="color_background">
-            <color red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-    </resources>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="viewtQRFWz" translatesAutoresizingMaskIntoConstraints="NO">
+          <subviews>
+            <button contentHorizontalAlignment="center" contentMode="scaleToFill" contentVerticalAlignment="center" id="backButton" lineBreakMode="wordWrap" opaque="NO" translatesAutoresizingMaskIntoConstraints="NO">
+              <userDefinedRuntimeAttributes userDefinedRuntimeAttributes="userDefinedRuntimeAttributes">
+                <userDefinedRuntimeAttribute keyPath="imageView.contentMode" type="number">
+                  <integer key="value" value="4"></integer>
+                </userDefinedRuntimeAttribute>
+              </userDefinedRuntimeAttributes>
+              <state image="ic_back" key="normal"></state>
+              <constraints>
+                <constraint constant="42.0" firstAttribute="width" id="constraintFlgySD" multiplier="1.0" priority="1000" relation="equal"></constraint>
+                <constraint constant="42.0" firstAttribute="height" id="constraintv6dLKy" multiplier="1.0" priority="1000" relation="equal"></constraint>
+              </constraints>
+            </button>
+          </subviews>
+          <constraints>
+            <constraint constant="8.0" firstAttribute="top" firstItem="backButton" id="constrainthFvi9D" identifier="constraintMatchParent-top-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="top" secondItem="viewtQRFWzSafeAreaGuide"></constraint>
+            <constraint constant="8.0" firstAttribute="bottom" firstItem="viewtQRFWzSafeAreaGuide" id="constraintxWmNu0" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="998" relation="greaterThanOrEqual" secondAttribute="bottom" secondItem="backButton"></constraint>
+            <constraint constant="8.0" firstAttribute="bottom" firstItem="viewtQRFWzSafeAreaGuide" id="constraintG8792q" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="997" relation="equal" secondAttribute="bottom" secondItem="backButton"></constraint>
+            <constraint constant="8.0" firstAttribute="leading" firstItem="backButton" id="constraintpdT2ca" identifier="constraintMatchParent-leading-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="leading" secondItem="viewtQRFWzSafeAreaGuide"></constraint>
+            <constraint constant="8.0" firstAttribute="trailing" firstItem="viewtQRFWzSafeAreaGuide" id="constraintSBNc01" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="998" relation="greaterThanOrEqual" secondAttribute="trailing" secondItem="backButton"></constraint>
+            <constraint constant="8.0" firstAttribute="trailing" firstItem="viewtQRFWzSafeAreaGuide" id="constraintOI3GyM" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="997" relation="equal" secondAttribute="trailing" secondItem="backButton"></constraint>
+          </constraints>
+          <viewLayoutGuide id="viewtQRFWzSafeAreaGuide" key="safeArea"></viewLayoutGuide>
+        </view>
+        <view clipsSubviews="YES" contentMode="scaleToFill" customClass="SwapView" customModule="RxSwiftPlus" hidden="YES" id="dialog" placeholderIntrinsicHeight="50" placeholderIntrinsicWidth="50" translatesAutoresizingMaskIntoConstraints="NO">
+          <color key="backgroundColor" name="color_background"></color>
+        </view>
+      </subviews>
+      <constraints>
+        <constraint constant="0.0" firstAttribute="top" firstItem="content" id="constraintdHIOZ8" identifier="constraintMatchParent-top-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="top" secondItem="viewoXTUo1"></constraint>
+        <constraint constant="0.0" firstAttribute="bottom" id="constraintpYT5Tv" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="bottom" secondItem="content"></constraint>
+        <constraint constant="0.0" firstAttribute="leading" firstItem="content" id="constraint3TVjAE" identifier="constraintMatchParent-leading-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="leading" secondItem="viewoXTUo1"></constraint>
+        <constraint constant="0.0" firstAttribute="trailing" id="constraintE0HH5e" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="trailing" secondItem="content"></constraint>
+        <constraint constant="0.0" firstAttribute="top" firstItem="viewtQRFWz" id="constraintobzxx1" identifier="constraintMatchParent-top-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="top" secondItem="viewoXTUo1"></constraint>
+        <constraint constant="0.0" firstAttribute="bottom" id="constraintsMEiFp" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="1000" relation="greaterThanOrEqual" secondAttribute="bottom" secondItem="viewtQRFWz"></constraint>
+        <constraint constant="0.0" firstAttribute="bottom" id="constraintKullrZ" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="300" relation="equal" secondAttribute="bottom" secondItem="viewtQRFWz"></constraint>
+        <constraint constant="0.0" firstAttribute="leading" firstItem="viewtQRFWz" id="constraintdtBCdm" identifier="constraintMatchParent-leading-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="leading" secondItem="viewoXTUo1"></constraint>
+        <constraint constant="0.0" firstAttribute="trailing" id="constraintyjmaTX" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="1000" relation="greaterThanOrEqual" secondAttribute="trailing" secondItem="viewtQRFWz"></constraint>
+        <constraint constant="0.0" firstAttribute="trailing" id="constraintl4dHke" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="300" relation="equal" secondAttribute="trailing" secondItem="viewtQRFWz"></constraint>
+        <constraint constant="0.0" firstAttribute="top" firstItem="dialog" id="constraintepUd7L" identifier="constraintMatchParent-top-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="top" secondItem="viewoXTUo1"></constraint>
+        <constraint constant="0.0" firstAttribute="bottom" id="constraint1hm1j4" identifier="constraintMatchParent-bottom-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="bottom" secondItem="dialog"></constraint>
+        <constraint constant="0.0" firstAttribute="leading" firstItem="dialog" id="constraint5XSUbB" identifier="constraintMatchParent-leading-start" multiplier="1.0" priority="1000" relation="equal" secondAttribute="leading" secondItem="viewoXTUo1"></constraint>
+        <constraint constant="0.0" firstAttribute="trailing" id="constraintD26Sni" identifier="constraintMatchParent-trailing-end" multiplier="1.0" priority="1000" relation="equal" secondAttribute="trailing" secondItem="dialog"></constraint>
+      </constraints>
+    </view>
+  </objects>
+  <resources>
+    <namedColor name="color_background">
+      <color alpha="1.0" blue="0.15294118" colorSpace="custom" customColorSpace="sRGB" green="0.15294118" red="0.15294118"></color>
+    </namedColor>
+    <image height="24" name="ic_back" width="24"></image>
+  </resources>
 </document>

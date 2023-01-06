@@ -160,6 +160,7 @@
 		7CE15E5C29677DB5005F8C0B /* bebas_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bebas_bold.ttf; sourceTree = "<group>"; };
 		7CE15E5D29677DB5005F8C0B /* lato_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lato_bold.ttf; sourceTree = "<group>"; };
 		7CE15E5E29677DB5005F8C0B /* lato_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lato_light.ttf; sourceTree = "<group>"; };
+		7CE15E62296881AD005F8C0B /* IosProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IosProject.entitlements; sourceTree = "<group>"; };
 		C1B3BC6E642FB971BF70694A /* Pods-IosProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IosProject.debug.xcconfig"; path = "Target Support Files/Pods-IosProject/Pods-IosProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -215,6 +216,7 @@
 		7C8092CE29676183001ACA31 /* IosProject */ = {
 			isa = PBXGroup;
 			children = (
+				7CE15E62296881AD005F8C0B /* IosProject.entitlements */,
 				7C80930B29676975001ACA31 /* resources */,
 				7C80934429676975001ACA31 /* shared */,
 				7C80932D29676975001ACA31 /* src */,
@@ -784,6 +786,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = IosProject/IosProject.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EF4N5K3F2Q;
@@ -814,6 +817,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = IosProject/IosProject.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EF4N5K3F2Q;

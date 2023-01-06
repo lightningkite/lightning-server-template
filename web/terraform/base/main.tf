@@ -75,7 +75,7 @@ resource "aws_s3_object" "app_storage" {
   for_each     = module.template_files.files
   bucket       = aws_s3_bucket.files.id
   key          = each.key
-  content_type = each.value.content_type
+  content_type = each.key == ".well-known/apple-app-site-association" ? "application/json" : each.value.content_type
 
   # The template_files module guarantees that only one of these two attributes
   # will be set for each file, depending on whether it is an in-memory template

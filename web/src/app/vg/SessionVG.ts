@@ -5,10 +5,11 @@ import { SessionBinding } from '../../resources/layouts/SessionBinding'
 import { FcmToken, User } from '../../shared/models'
 import { Session } from '../models/UserSession'
 import { HasTitle } from './HasTitle'
+import { HomeVG } from './HomeVG'
 import { SettingsVG } from './SettingsVG'
 import { ImageButton } from '@lightningkite/android-xml-runtime'
 import { printStackTrace, runOrNull, tryCastInterface } from '@lightningkite/khrysalis-runtime'
-import { ViewGenerator, ViewGeneratorStack, chain, not, onThrottledEventDo, reverse, showInSwapCustom, subscribeAutoDispose, viewVisible, xStackBackPressPop, xStackReset } from '@lightningkite/rxjs-plus'
+import { ViewGenerator, ViewGeneratorStack, bindNoUncheck, not, onThrottledEventDo, reverse, showInSwapCustom, subscribeAutoDispose, viewVisible, withWrite, xStackBackPressPop, xStackReset } from '@lightningkite/rxjs-plus'
 import { Notifications } from '@lightningkite/rxjs-plus/fcm'
 import { first, takeLastOr } from 'iter-tools-es'
 import { BehaviorSubject, Observable, of } from 'rxjs'
@@ -19,7 +20,7 @@ export class SessionVG implements ViewGenerator {
     public static implementsViewGenerator = true;
     public constructor(public readonly root: ViewGeneratorStack, public readonly session: Session) {
         this.sessionStack = new BehaviorSubject([]);
-        this.mainTabClick();
+        this.homeTabClick();
     }
     
     
@@ -36,9 +37,11 @@ export class SessionVG implements ViewGenerator {
         Notifications.INSTANCE.configure(dependency);
         const userSession_4 = this.session.user;
         if (userSession_4 !== null) {
-            Notifications.INSTANCE.notificationToken.pipe(switchMap((it: (string | null)): Observable<any> => (((): (Observable<FcmToken> | null) => {
+            Notifications.INSTANCE.notificationToken.pipe(switchMap((it: (string | null)): Observable<void> => (((): (Observable<void> | null) => {
                 if (it === null || it === undefined) { return null }
-                return ((it: string): Observable<FcmToken> => (userSession_4.auth.getSelf().pipe(mergeMap((user: User): Observable<FcmToken> => (userSession_4.fcmToken.upsert(it, new FcmToken(it, user._id)))))))(it)
+                return ((it: string): Observable<void> => (userSession_4.auth.getSelf().pipe(mergeMap((user: User): Observable<FcmToken> => (userSession_4.fcmToken.upsert(it, new FcmToken(it, user._id))))).pipe(map((it: FcmToken): void => {
+                    return undefined;
+                }))))(it)
             })() ?? of(undefined)))).subscribe(undefined, (it: any): void => {
                 printStackTrace(it);
             }, undefined);
@@ -67,23 +70,19 @@ export class SessionVG implements ViewGenerator {
         //--- Set Up xml.session (overwritten on flow generation)
         this.sessionStack.pipe(showInSwapCustom(xml.session, dependency, undefined));
         
-        //--- Set Up xml.mainTab
-        this.sessionStack.pipe(map((it: Array<ViewGenerator>): boolean => (first(it)! instanceof SettingsVG))).pipe(subscribeAutoDispose(xml.mainTab, chain("input", "checked")));
-        onThrottledEventDo(xml.mainTab, 'click', (): void => {
-            this.mainTabClick();
-        });
-        
-        //--- Set Up xml.altTab
-        this.sessionStack.pipe(map((it: Array<ViewGenerator>): boolean => (first(it)! instanceof SettingsVG))).pipe(subscribeAutoDispose(xml.altTab, chain("input", "checked")));
-        onThrottledEventDo(xml.altTab, 'click', (): void => {
-            this.altTabClick();
-        });
+        //--- Set Up xml.homeTab
+        this.sessionStack.pipe(map((it: Array<ViewGenerator>): boolean => (first(it)! instanceof HomeVG)))
+            .pipe(withWrite((it: boolean): void => {
+            if (it) { this.homeTabClick() }
+        }))
+            .pipe(bindNoUncheck(xml.homeTab.input));
         
         //--- Set Up xml.settingsTab
-        this.sessionStack.pipe(map((it: Array<ViewGenerator>): boolean => (first(it)! instanceof SettingsVG))).pipe(subscribeAutoDispose(xml.settingsTab, chain("input", "checked")));
-        onThrottledEventDo(xml.settingsTab, 'click', (): void => {
-            this.settingsTabClick();
-        });
+        this.sessionStack.pipe(map((it: Array<ViewGenerator>): boolean => (first(it)! instanceof SettingsVG)))
+            .pipe(withWrite((it: boolean): void => {
+            if (it) { this.settingsTabClick() }
+        }))
+            .pipe(bindNoUncheck(xml.settingsTab.input));
         
         //--- Generate End (overwritten on flow generation)
         
@@ -98,12 +97,8 @@ export class SessionVG implements ViewGenerator {
         xStackBackPressPop(this.sessionStack);
     }
     
-    public mainTabClick(): void {
-        xStackReset(this.sessionStack, new SettingsVG(this.root, this.session));
-    }
-    
-    public altTabClick(): void {
-        xStackReset(this.sessionStack, new SettingsVG(this.root, this.session));
+    public homeTabClick(): void {
+        xStackReset(this.sessionStack, new HomeVG());
     }
     
     public settingsTabClick(): void {

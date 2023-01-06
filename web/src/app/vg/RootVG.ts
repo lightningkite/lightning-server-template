@@ -20,7 +20,7 @@ import { EntryPoint, ViewGenerator, ViewGeneratorStack, doOnSubscribe, not, onTh
 import { ForegroundNotificationHandler, ForegroundNotificationHandlerResult, Notifications } from '@lightningkite/rxjs-plus/fcm'
 import { execPipe, findOr, map } from 'iter-tools-es'
 import { BehaviorSubject, Observable, SubscriptionLike, of } from 'rxjs'
-import { map as oMap, tap } from 'rxjs/operators'
+import { finalize, map as oMap, tap } from 'rxjs/operators'
 
 //! Declares com.lightningkite.template.vg.RootVG
 export class RootVG implements ViewGenerator, EntryPoint, ForegroundNotificationHandler {
@@ -39,16 +39,13 @@ export class RootVG implements ViewGenerator, EntryPoint, ForegroundNotification
         })();;
         const jwt = PreferenceKeys.INSTANCE.session;;
         if (option !== null && jwt !== null) {
-            ((): Observable<void> => {
-                const temp7 = (): void => {
-                    this.dialog.next([]);
-                };
-                return this.login(option!, jwt)
-                    .pipe(doOnSubscribe((it: SubscriptionLike): void => {
-                    xStackReset(this.dialog, new LoadingDialogVG());
-                }))
-                    .pipe(tap(temp7, temp7))
-            })()
+            this.login(option!, jwt)
+                .pipe(doOnSubscribe((it: SubscriptionLike): void => {
+                xStackReset(this.dialog, new LoadingDialogVG());
+            }))
+                .pipe(finalize((): void => {
+                this.dialog.next([]);
+            }))
                 .subscribe((it: void): void => {}, (it: any): void => {
                 printStackTrace(it);
                 showDialog(Strings.generic_error);
@@ -83,16 +80,13 @@ export class RootVG implements ViewGenerator, EntryPoint, ForegroundNotification
             if (option === null) {
                 showDialog(Strings.deep_link_was_invalid_server);
             } else {
-                ((): Observable<void> => {
-                    const temp39 = (): void => {
-                        this.dialog.next([]);
-                    };
-                    return this.login(option!, jwt_31)
-                        .pipe(doOnSubscribe((it: SubscriptionLike): void => {
-                        xStackReset(this.dialog, new LoadingDialogVG());
-                    }))
-                        .pipe(tap(temp39, temp39))
-                })()
+                this.login(option!, jwt_31)
+                    .pipe(doOnSubscribe((it: SubscriptionLike): void => {
+                    xStackReset(this.dialog, new LoadingDialogVG());
+                }))
+                    .pipe(finalize((): void => {
+                    this.dialog.next([]);
+                }))
                     .subscribe((it: void): void => {}, (it: any): void => {
                     showDialog(Strings.deep_link_was_invalid_credentials);
                 });

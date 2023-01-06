@@ -8,19 +8,21 @@ import { AnonymousSession, Session } from '../models/UserSession'
 import { SessionVG } from './SessionVG'
 import { Image, ViewGenerator, ViewGeneratorStack, imageElementSet, showInPager, subscribeAutoDispose, viewExists, xStackReset } from '@lightningkite/rxjs-plus'
 import { first } from 'iter-tools-es'
-import { Observable, fromEvent, of } from 'rxjs'
+import { BehaviorSubject, Observable, fromEvent, of } from 'rxjs'
 import { map, mergeMap, take } from 'rxjs/operators'
 
 //! Declares com.lightningkite.template.vg.AppExplanationVG
 export class AppExplanationVG implements ViewGenerator {
     public static implementsViewGenerator = true;
     public constructor(public readonly root: ViewGeneratorStack, public readonly stack: ViewGeneratorStack) {
+        this.showIndex = new BehaviorSubject(0);
         this.explanations = [new AppExplanationVG.Explanation("Welcome!", Drawables.logo, "Welcome to Lightning Template!  Some features:", undefined, undefined), new AppExplanationVG.Explanation("Notifications", Drawables.ic_circle_notifications, "Notifications on Android, iOS, and Web are all built in.  You just need to plug in your credentials!", undefined, undefined), new AppExplanationVG.Explanation("Stripe", Drawables.ic_payment, "Stripe subscriptions are a built-in feature for you to monetize your app!", undefined, undefined), new AppExplanationVG.Explanation("Join Us!", Drawables.logo, "We'd love for you to work with our tools!", "Check it out!", (): void => {
             xStackReset(this.stack, new SessionVG(this.root, new Session(new AnonymousSession(first(ServerOptions.INSTANCE.availableServers)!.api), null)));
         })];
     }
     
     
+    public readonly showIndex: BehaviorSubject<number>;
     
     public readonly explanations: Array<AppExplanationVG.Explanation>;
     
@@ -30,7 +32,7 @@ export class AppExplanationVG implements ViewGenerator {
         
         //--- Set Up xml.explanation
         of(this.explanations)
-            .pipe(showInPager(xml.explanation, undefined, (obs: Observable<AppExplanationVG.Explanation>): HTMLElement => {
+            .pipe(showInPager(xml.explanation, this.showIndex, (obs: Observable<AppExplanationVG.Explanation>): HTMLElement => {
             //--- Make Subview For xml.explanation (overwritten on flow generation)
             const cellXml = ComponentAppExplanationBinding.inflate();
             
