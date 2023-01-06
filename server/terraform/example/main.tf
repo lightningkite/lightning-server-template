@@ -16,14 +16,10 @@ terraform {
       source = "hashicorp/archive"
       version = "~> 2.2.0"
     }
-    mongodbatlas = {
-      source = "mongodb/mongodbatlas"
-      version = "~> 1.4"
-    }
   }
   backend "s3" {
-    bucket = "lightningkite-terraform"
-    key    = "template/cs"
+    bucket = "your-deployment-bucket"
+    key    = "LKTemplate/example"
     region = "us-west-2"
   }
 }
@@ -33,6 +29,4 @@ provider "aws" {
 provider "aws" {
   alias = "acm"
   region = "us-east-1"
-}
-provider "mongodbatlas" {
 }

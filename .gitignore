@@ -11,6 +11,7 @@ settings.yaml
 settings.json
 settings.suggested.json
 local.tf
+local.auto.tfvars
 web/dist
 
 demo/terraform/bssoftware
