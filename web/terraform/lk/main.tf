@@ -33,6 +33,6 @@ module "domain" {
   source              = "../domain"
   deployment_location = "us-west-2"
   deployment_name     = "templatefront"
-  domain_name = "template.cs.lightningkite.com"
-  domain_name_zone = "cs.lightningkite.com"
+  domain_name         = "template.cs.lightningkite.com"
+  domain_name_zone    = "cs.lightningkite.com"
 }

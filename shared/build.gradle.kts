@@ -37,7 +37,7 @@ dependencies {
 
     equivalents("com.lightningkite.lightningserver:shared:$lightningServerVersion:equivalents")
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
 ksp {

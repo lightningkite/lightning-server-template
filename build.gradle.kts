@@ -16,7 +16,7 @@ buildscript {
         classpath("com.lightningkite.androidlayouttranslator:plugin:$androidRuntimeVersion")
         classpath("com.lightningkite.rx:view-generator-plugin:$rxPlusVersion")
         classpath("com.android.tools.build:gradle:7.0.4")
-        classpath("com.google.gms:google-services:4.3.10")
+        classpath("com.google.gms:google-services:4.3.15")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
@@ -25,7 +25,7 @@ allprojects {
     repositories {
         group = "com.campchef"
         mavenLocal()
-//        maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/")
 //        maven(url = "https://s01.oss.sonatype.org/content/repositories/releases/")
         maven("https://jitpack.io")
         google()

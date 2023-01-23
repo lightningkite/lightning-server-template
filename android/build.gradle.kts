@@ -74,7 +74,7 @@ dependencies {
     implementation("com.lightningkite.rx:okhttp-resources:$rxPlusVersion")
     implementation("com.lightningkite.khrysalis:jvm-runtime:$khrysalisVersion")
     implementation("com.lightningkite.androidlayouttranslator:android-runtime:$androidRuntimeVersion")
-    implementation("androidx.security:security-crypto-ktx:1.1.0-alpha03")
+    implementation("androidx.security:security-crypto-ktx:1.1.0-alpha04")
 
     kcp("com.lightningkite.khrysalis:kotlin-compiler-plugin-swift:$khrysalisVersion")
     kcp("com.lightningkite.khrysalis:kotlin-compiler-plugin-typescript:$khrysalisVersion")
@@ -84,8 +84,8 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
 configure<PrototyperPluginExtension> {

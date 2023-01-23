@@ -12,6 +12,7 @@ class ServerOption(
 object ServerOptions {
     val staging = ServerOption("Staging", LiveApi(httpUrl = "https://templateapi.cs.lightningkite.com", socketUrl = "wss://ws.templateapi.cs.lightningkite.com"))
     val jivie = ServerOption("Jivie", LiveApi(httpUrl = "https://jivie.lightningkite.com", socketUrl = "wss://jivie.lightningkite.com"))
+    val bSvedin = ServerOption("BSvedin", LiveApi(httpUrl = "https://bsvedin.lightningkite.com", socketUrl = "wss://bsvedin.lightningkite.com"))
 
     val availableServers = listOf(staging, jivie)
 

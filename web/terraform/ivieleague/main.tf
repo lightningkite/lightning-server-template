@@ -33,6 +33,6 @@ module "domain" {
   source              = "../domain"
   deployment_location = "us-west-2"
   deployment_name     = "samfront"
-  domain_name = "samf.ivieleague.com"
-  domain_name_zone = "ivieleague.com"
+  domain_name         = "samf.ivieleague.com"
+  domain_name_zone    = "ivieleague.com"
 }

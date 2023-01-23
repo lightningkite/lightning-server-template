@@ -22,8 +22,8 @@ dependencies {
     api("com.lightningkite.lightningserver:server-ktor:$lightningServerVersion")
     api("com.lightningkite.lightningserver:server-sentry:$lightningServerVersion")
     ksp("com.lightningkite.lightningserver:processor:$lightningServerVersion")
-    implementation("com.stripe:stripe-java:21.12.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation("com.stripe:stripe-java:22.1.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
     api("io.sentry:sentry:1.7.30")
     api("io.sentry:sentry-logback:1.7.30")
 }

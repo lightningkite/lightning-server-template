@@ -1,9 +1,14 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.lightningkite.template",
-    "sha256_cert_fingerprints":
-    ["76:A3:9C:4D:39:CA:4C:CE:F1:EE:07:0B:26:4A:C9:C3:5C:5F:BD:1D:9A:DF:1B:36:6F:EC:5F:03:78:58:7C:47"]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lightningkite.template",
+      "sha256_cert_fingerprints": [
+        "76:A3:9C:4D:39:CA:4C:CE:F1:EE:07:0B:26:4A:C9:C3:5C:5F:BD:1D:9A:DF:1B:36:6F:EC:5F:03:78:58:7C:47"
+      ]
+    }
   }
-}]
+]

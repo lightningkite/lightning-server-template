@@ -39,7 +39,7 @@ data "aws_route53_zone" "main" {
 }
 
 resource "aws_acm_certificate" "web" {
-  provider = aws.acm
+  provider          = aws.acm
   domain_name       = var.domain_name
   validation_method = "DNS"
 }
@@ -51,7 +51,7 @@ resource "aws_route53_record" "web" {
   ttl     = "300"
 }
 resource "aws_acm_certificate_validation" "web" {
-  provider = aws.acm
+  provider                = aws.acm
   certificate_arn         = aws_acm_certificate.web.arn
   validation_record_fqdns = [aws_route53_record.web.fqdn]
 }
@@ -80,10 +80,10 @@ resource "aws_cloudfront_distribution" "main" {
     origin_id   = module.Base.bucket.id
 
     custom_origin_config {
-      http_port = 80
-      https_port = 443
+      http_port              = 80
+      https_port             = 443
       origin_protocol_policy = "http-only"
-      origin_ssl_protocols = ["TLSv1", "TLSv1.1", "TLSv1.2", "SSLv3"]
+      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2", "SSLv3"]
     }
   }
   default_cache_behavior {
